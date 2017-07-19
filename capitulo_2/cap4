@@ -1,0 +1,3 @@
+*/sbin/init primer proceso o tarea a nivel de usuario  se ejecuta desde el inicio hasta el apagado 
+
++ init cordina las etapas posteriores al proceso de arranque 
