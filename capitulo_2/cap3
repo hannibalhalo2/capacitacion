@@ -1,0 +1,23 @@
+*GRUB grand unified boot loader
+
++caracterisiticas grub
+ - puedo escojer entre diferentes SO
+ - puedo escojer kernels alternativos y ramdisk para el SO que escoja
+ - puedo cambiar parametros de arranque sin tener que editar archivos de configuracion
+
++archivo de configuracion grub2
+ /boot/grub/grub.cfg
+
++archivo de configuracion grub1
+/etc/grub/grub.conf
+
+* se recomienda no editar estos archivos ya que son autogenerados 
+
+* despues de superar las etapas BIOS , POST grub se ejecuta y muestra un menu
+
++alseleccionar una entrada y presionar e tendra acceso a una shell interactiva donde puede modificar la liena de comandos del kernel agregando la palabra 
+single al final de la linea para inicior por una session monousuario
+
++instalacion Grub
+ - instalar los archivos de GRUB en /boot/grub o /boot/group2 los archivos 
+   vmlinuz-* initramfs-*
