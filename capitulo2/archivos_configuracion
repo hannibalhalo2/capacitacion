@@ -1,10 +1,10 @@
-* archivos de configuracion debian 
+* archivos de configuracion debian
 /etc/default
 
 * archivos de configuracion redhat
 /etc/sysconfig
 
 */etc/default/useradd
-contiene informacion predeterminada para la creacion de cuentas 
+contiene informacion predeterminada para la creacion de cuentas
 
 rehacer pruebas de conocimiento

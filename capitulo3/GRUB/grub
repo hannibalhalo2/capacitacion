@@ -1,0 +1,40 @@
+*grub1 es un solo programa 
+
+*grub2 en un compendio de programas que inician con grub2-* grub2-*
+
+*instalacion grub2 
+ -busco en que particion tengo la /boot (lsblk)
+ -sudo grub2-install /dev/sda6 por que en este equipo tengo el boot en la sda6
+
+*instalacion grub1
+ -sudo grub entra aun linea de comandos donde lo instala en el primer disco y los archivos de arrnaque en la 
+  primera particion
+
+*en grub1(hd0 (ide)) las particiones inician en 0 en en grub2 en 1 (sda1 (sata))
+
+*archivo configuracion /etc/default/grub
+
+*GRUB grand unified boot loader
+
++caracterisiticas grub
+ - puedo escojer entre diferentes SO
+ - puedo escojer kernels alternativos y ramdisk para el SO que escoja
+ - puedo cambiar parametros de arranque sin tener que editar archivos de configuracion
+
++archivo de configuracion grub2
+ /boot/grub/grub.cfg
+
++archivo de configuracion grub1
+/etc/grub/grub.conf
+
+* se recomienda no editar estos archivos ya que son autogenerados
+
+* despues de superar las etapas BIOS , POST grub se ejecuta y muestra un menu
+
++alseleccionar una entrada y presionar e tendra acceso a una shell interactiva donde puede modificar la liena de coman$
+single al final de la linea para inicior por una session monousuario
+
++instalacion Grub
+ - instalar los archivos de GRUB en /boot/grub o /boot/group2 los archivos
+   vmlinuz-* initramfs-*
+
