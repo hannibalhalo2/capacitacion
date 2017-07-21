@@ -1,0 +1,17 @@
+La secuencia de arranque
+
+ 
+
+Cuando el computador se enciende, éste sólo puede realizar las operaciones que la BIOS (Basic Input Output System) 
+le ordena realizar.
+
+Primero, la BIOS ejecuta el POST (Power On Self Test), el cual verifica la memoria y el hardware. Luego busca un 
+programa de arranque en una ubicación o dispositivo específico. Generalmente el programa de arranque se encuentra 
+en el MBR del dispositivo (Master Boot Record). Entonces el control del computador se transfiere a este programa de 
+booteo (generalmente GRUB).
+
+Entonces el programa de arranque carga el kernel en memoria y lo ejecuta. En plataformas x86 (y muchas otras), 
+el kernel tiene que descomprimirse primero. Luego realiza verificaciones de hardware, gana acceso a periféricos 
+importantes y en cierto instante ejecuta el proceso init. El proceso init continúa con el arranque del sistema, 
+ejecutando los scripts de inicio si se está usando SysVinit o administrando ya sea Upstart o systemd.
+

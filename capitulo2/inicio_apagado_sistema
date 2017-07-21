@@ -1,0 +1,27 @@
+
+ Al final de este capítulo, usted debería ser capaz de:
+    
+    -Explicar el proceso de arranque.
+    -Identificar varios tipos de cargadores de arranque.
+    -Describir lo que hace la BIOS.
+    -Identificar los archivos de configuración importantes.
+    -Describir cómo el sistema se apaga y reinicia.
+
+* los archivos /etc/sysconfig  /etc/default controlan en comportamiento del inicio 
+
+* secuencia BIOS (BASIC INPUT OUTPUT SISTEM) ejecuta POST (POWER ON SELF TEST) testea hardware y memoria
+            busca programa de arranque en el MBR (master boot record)
+            control de el pc pasa a el grub 
+            GRUB carga kernel en memoria y lo ejecuta relaiza verificacionesde hardware ejecuta init
+            el proceso init ejecuta scripts se inicio si se ejecuta sysVINITI O UPSTART O SYSTEMD   
+            (VER ARCHIVO (SECUENCIA ARRANCQUE))
+
+* UEFI es el remplazo de BIOS 	ya que realiza muchas de las mismas funciones
+
+* la BIOS  se encuentraen un chip externo para que las fallas de disco no la comprometan
+
+* gestores de arranque
+  GRUB (el mas usado para aarnacar tiene interfaz grafica y trexto)
+  LILO (viejo obsoleto)
+  efilinux (arranque diseniado para uefi)
+  DAS U-Boot (arranque para sitemas enbebidos)
