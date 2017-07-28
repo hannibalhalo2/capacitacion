@@ -20,8 +20,11 @@
 + detectar runlevel 
   sudo runlevel
 
-+ cambiar de runlevel 
++ cambiar de runlevel usuario 
   sudo /sbin/telinit numero de run level deseado
+
++ cambiar de runlevel servicio en especifico
+  sudo chkconfig 234 name_service
 
 + etc/inittab se usaba para instruir a init y llevar el sistema a cada run level en debian y ubuntu ya no existe
 
@@ -41,7 +44,7 @@ estaban vacios y rc.sysinit no existia)
   chkconfig --add para habilitarlo
 
 + chkconfig numero que aparece luego de las s y ka en el simbolico 
-  chkconfig 2345 en que runlevels corre
+  chkconfig --level 2345 en que runlevels corre
   s10 S el de inicio
   k90  k si tiene detencion
 
