@@ -1,0 +1,64 @@
+-UDEV
+es una pieza de software inteligente para descubrir hardware y perifericos durante
+el inicio como despues una vez son conectados al sistema
+
+- los dispositivos de caracter y bloques (los que empiezan por c o por b  en /dev)
+   son especiales ya que tienen entradas de sistema asociandos a ellas
+  open ()
+  close ()
+  read ()
+  write ()
+  ejemplos full perifericos que no sean adaptadores (red , video)
+  camara mouse hard drive dispositivos usb teclado
+
+
+
+-creacion nodos dispositivos 
+ sudo mknod -m mode /dev/name <type> <major> <minor>
+      mknod -m 666 /dev/mycdrv c 254 1 
+
+- los dispositivos de red NO poseen entradas de sistema   funcionan  atravez de la
+  transmision y recepcion de paquetes los cuales se contruyen apartir de 
+  decodificacion y flujos de datos
+
+- un controlador de dispositivo puede administrar multiples nodos de dispositivo
+  lo cuales se encuentran en /dev
+
+-└┤$> ls -l /dev | grep sda
+  │brw-rw----  1 root disk      8,   0 Aug  8 07:41 sda
+  │brw-rw----  1 root disk      8,   1 Aug  8 07:41 sda1
+  │brw-rw----  1 root disk      8,   2 Aug  8 07:41 sda2
+  │brw-rw----  1 root disk      8,   3 Aug  8 07:41 sda3
+
+  8 (usan el mismo controlador)
+  1 - 3 se usan para diferenciar ya que estos pueden corresponder a particiones
+        cuando sea un disco o diferentes tarjetas de sonido
+
+ mknod() y stat () devuelven informacion acerca de estos numeros
+
+- udev crea nodos de dispositivos a media que son necesitados
+
+-udev corre como un demonio --> udevd
+
+- componentes udev
+  libreria libudev -> permite acceso a la informacion de dispositivos
+  udevd            -> demonio que gestiona el directorio /dev
+  udevadm          -> utilidad control diagnostico
+
+-archivo principal de configuracion es /etc/udev/udev.conf
+                      reglas        es /etc/udev/rules.d
+
+
+- ciclo de UDEV
+  - recibe un mensaje desde el kernel acerca de que dispositivos estan siendo 
+    agregados o removiods 
+  - analiza /etc/udev/rules.d para ver si hay reglas para ese dispositivo
+  - asigna nombre a los nodos de dispositivo
+  - creacion de nodos de dispositivo y links simbolicos 
+  - ajuste permisos de archivo y duenio paral os nodos de dispositivo
+  - realiza otras acciones para inicializar el dispositivo y ponerlo disponible
+
+- reglas udev
+  sintaxis
+  <match> <op> value [,...] <assignement><op> value  [,...]
+  SUBSYSTEM=="usb" , SYMLINK+="myusb"
