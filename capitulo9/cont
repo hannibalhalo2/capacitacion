@@ -1,3 +1,22 @@
+tipos disco
+
+-IDE entorno desarrolo integrado 
+ son pequenios y lentos actualmente obsoletos
+ 
+-SATA
+remplazaron los PATA que fueron conocido como los IDE posee
+mayor transferencia cables mas pequenios son detectados como scsi para
+no tener que rescribir drivers
+tiene un cable de 7 pines 
+
+-SCSI
+interfaz de sistema para pequenias computadoras 
+
+
+(falta parte pc de la casa)
+
+
+
 SCSI
 
 enuemra los discos dependiendo la controladora y el id 
