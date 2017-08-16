@@ -1,0 +1,15 @@
+SCSI
+
+enuemra los discos dependiendo la controladora y el id 
+
+ej controladora 0 esta el ID1 Y EL ID3
+   controladora 1 esta el ID2 Y EL ID4
+
+quedaria
+
+ID1 --> /dev/sda
+ID3 --> /dev/sdb
+ID2 --> /dev/sdc
+ID4 --> /dev/sdd
+
+
