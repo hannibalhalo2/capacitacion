@@ -1,0 +1,95 @@
+tipos disco
+
+-IDE entorno desarrolo integrado 
+ son pequenios y lentos actualmente obsoletos
+ 
+-SATA
+remplazaron los PATA que fueron conocido como los IDE posee
+mayor transferencia cables mas pequenios son detectados como scsi para
+no tener que rescribir drivers
+tiene un cable de 7 pines 
+
+-SCSI
+interfaz de sistema para pequenias computadoras 
+
+
+(falta parte pc de la casa)
+
+
+
+SCSI
+
+enuemra los discos dependiendo la controladora y el id 
+
+ej controladora 0 esta el ID1 Y EL ID3
+   controladora 1 esta el ID2 Y EL ID4
+
+quedaria
+
+ID1 --> /dev/sda
+ID3 --> /dev/sdb
+ID2 --> /dev/sdc
+ID4 --> /dev/sdd
+
+
+blkid
+lista los discos con uid y otros atributos
+
+lsblk
+lista los discos con nombre ne formato arbol
+
++ un sistema debe tener minimo 2 particiones 
+  - /     -> punto raiz de todo el sistema operativo  
+  - swap  -> -zona de intercambio es una extencion de la memoria fisica
+             -se recomienda ser del tamanio de la ram fisica o avecesel doble
+             -se puede tener varias particiones de swap
+
++dd hace backup de un disco completo sintaxis 
+ 
+dd if=disco a copiar of=disco a destino bs=512  count=1
+                                                                         blocks
+dd if=/dev/sda of=/dev/
+
+- bs se recomienda 512 ya que entre mas pequenio es mas seguro
+- count copy only N input blocks
+
+
++Utilidades para modificar tabla de particiones
+ - Fdisk editor tabla particiones con menu 
+ - sfdik edicion de particiones no interactivo util para hacer scripts
+ - parted programa de manipulacion de partciones de GNU 
+ - gparted la g es por graphic :)
+ - redhat ya no soporta gparted
+
++uso fdisk 
+sintaxis fdisk disco 
+
+m despliega menu
+p lista las partciones
+n crea una partcion nueva
+d elimina particion
+t cambia el tipo de particion
+w escribe la informacion y ssale 
+q sale sin realizar cambios 
+
+ -->creacion / borrado / redimension particion
+
+   -sudo fdisk disco
+   -p para listar las particiones
+   me fijo muy bn el punto de arranque de la particion START
+   -d para borrar
+   -n para nueva
+  - pregunta que si quiere partcion primaria o extendida 
+   eiljo extendida
+  -pongo el mismo start que tenia para no generar perdida de data
+ cuando pide las sector se pone +el tamanio que quiero que quede la particion +30gb 
+  - t para decir de que tipo quiero mi nueva partcion (este tipo se puede ver con 
+     la opcion p de fdisk en este caso es Linux)
+  -w para escribir los datos en el disco  
+
+sudo partprobe -s 
+prueba una tabla de partciones recien creada en caliente 
+
+cat /proc/partitions
+visualiza que particiones reconoce el S.O
+
