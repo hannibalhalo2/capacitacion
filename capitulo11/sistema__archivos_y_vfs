@@ -1,0 +1,79 @@
+*Los archivos y sus nombres son una abstracción de la capa física de E/S. 
+Escribir en el disco de forma directa (ignorando la capa del sistema de archivos) 
+es muy peligroso y se realiza sólo por programas de bajo nivel 
+del sistema operativo, nunca por una aplicación de usuario.
+
+*todos los sistemas Linux usan una jerarquía de árbol invertido del directorio raíz (/)
+
+*algunos sistemas de archivos seudovirtuales (abstracciones útiles que existem en memoria solamente) 
+serán montadas en el árbol; 
+estos incluyen /proc, /sys, /dev y tal vez /tmp, como también /run.
+
+*Linux implementa un Virtual File Sistem (VFS)
+ Cuando una aplicación necesita acceder a un archivo, ésta interactúa 
+con la capa de abstracción del VFS, el cual traduce todas las llamadas E/S 
+(operaciones de lectura/escritura, etc) en código específico 
+relacionado con el sistema de archivos real en particular.
+
+*La mayoría de los sistemas de archivos tienen acceso de lectura y escritura completo
+
+*Variantes como vfat no diferencias permisos de lectura/escritura/ejecución para los campos dueño/grupo/todos;
+
+*sistemas de archivos soportados por linux 
+Nombre	Descripción
+ ext2    	 Sistema de archivos nativo de Linux
+ minix	Antecesor de ext2
+ proc	 Usado para /proc/
+ msdos	 MSDOS
+ umsdos	 Extensiones a MSDOS    
+ vfat	Windows VFAT (incluye FAT32, FAT, etc.)
+ ntfs	 Windows NT NTFS (sólo lectura)
+ sysv	 SystemV/Xenit/Coherent FS
+ hpfs	 OS/2 HPFS
+ ufs	 Sun
+ udf	 CD R/W, DVD
+ hfs	 Apple MacIntosh Filesystem (HFS)
+ hfs+        	 Apple MacIntosh Extended HFS
+ befs    	 BeOS filesystem
+ jffs, jffs2	 Journalling Flash Filesystem
+ iso9660	 cdrom etc., incluyendo extensiones Joliet
+ cramfs	 Compressed read-only filesystem (sistema de archivos comprimido de sólo lectura)
+ romfs	 Small read-only filesystem (sistema de archivos pequeño de sólo lectura)
+ tmpfs	 Ram disk de intercambio
+ ramfs	 Ram disk, de un sistema de archivos, por ejemplo
+ gfs2	 Sistema de archivos de clúster de Red Hat
+ nfs	 Network Filesystem (hasta la versión 4)
+ smb	 Samba networking
+ ncp	 Novell Netware FS que usa Protocolo NCP
+ coda	 Sistema de archivos distribuido experimental
+ afs	 Sistema de archivos distribuido Andrew, de Carnegie Mellon
+ ocfs2	 Sistema de archivos de clúster de Oracle
+
+*Los sistemas de archivos con journaling se recuperan muy rápidamente de crashes/congeladas o caídas 
+con poco o nada de corrupción. Si bien esto tiene el costo de 
+tener que realizar más operaciones, las mejoras adicionales pueden  compensar el costo con creces
+
+*En un sistema de archivos con journaling las operaciones se agrupan en transacciones.
+ Una transacción debe ser llevada a cabo sin errores, de forma completa, ya que de otra manera
+ el sistema de archivos no es modificado. Se mantiene un archivo de registro para las transacciones. 
+Cuando ocurre un error, por lo general sólo la última transacción necesita ser examinada.  
+
+*comando para ver que filesystem son soportados por el kernel 
+cat /proc/filesystem
+
+*sistema de archivos especiales 
+Sistema de archivos
+	 Punto de montaje        	 Propósito
+ rootfs	     Ninguno	 Provee un directorio raíz vacío durante la carga del kernel.
+ hugetlbfs	 Cualquiera	 Provee acceso a páginas extendidas (2 o 4 MB en X86).
+ bdev	 Ninguno	 Usado para dispositivos de bloque.
+ proc	 /proc	 Seudosistema de archivos a través del cual se accede a muchas estructuras y subsistemas.
+ sockfs	 Ninguno	 Usado por sockets BSD.
+ tmpfs	 Cualquiera	 Disco RAM para intercambio, con redimensionamiento.
+ shm	 Ninguno	 Usado por memoria compartida de System V IPC.
+ pipefs	 Ninguno	 Usado para pipes (tuberías).
+ binfmt_misc	 Cualquiera	 Usado por varios formatos ejecutables.
+ devpts	 /dev/pts	 Usado por seudoterminales Unix98.
+ usbfs	 /proc/bus/usb	 Usado por el subsistema USB para dispositivos dinámicos.
+ sysfs	 /sys (o en otra parte)	 Usado como árbol de dispositivo.
+ debugfs	 /sys/kernel/debug (o en otra parte)	 Usado para depuración de acceso a archivos.

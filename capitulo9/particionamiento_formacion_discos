@@ -1,0 +1,96 @@
+
+* tipos discos
+
+- ide Entorno de desarrollo integrado
+discos lentos en comparacion con hardware moderno standard en maquinas nuevos el driver no existe son denominados 
+como /dev/hd0 y van aumentando /hd1 /hd2 arrrancan en 0
+
+- sata
+remplazo de PATA parallel ata el cual fue conocido como ide tiene un cable mas pequnio y detectado como scsi
+por lo cual se ahorro tiempo al no tener que escribir drivers tiene una velocidad de transferencia de 3gb/s o 6gb/s
+
+-SCSI Interfaz de Sistema para Pequeñas Computadoras
+tienen una capacidad menor quelos sata pero son mucho mas rapidos y trabajan em paralelo en la configuracion de RAID
+versiones de SCSI
+ +fast
+ +wide
+ +ultra
+ +ultrawide
+
+su bus va des desde 8bits a 16bits
+su tranferencia va desde 5mb/s a 160mb/s
+
+-SAS Serial Attached SCSI
+ serian punto a punto que viene a remplazar SCSI las tasas de transmision son similar a SATA pero el rendimiento es
+ mejor
+
+* geometria discos
+los discos giratorios se componen de uno o mas platos los cualesson leidos por uno o mas cabezales leeen una
+pista amedida que giran
+las pistas se dividen en bloques llamados sectores generalmente de 512
+cilindor es un grupo que esta formado por una misma pista en todos los platos
+
+*particiones
+consisten en grupos fisicamente contiguos de sectores o cilindros
+
+ -particiones primarias
+  una particion primaria puede ser extendida para subdividirla en particiones logicas
+
+*SATA soporta 15 en un disco 1-4 son primarias 5-n son logicas
+
+*el primer disco se denomina sda el segundo sdb y asi sucesivamente
+
+*RAZONES por las cuelas particionar
+
+- separacion     Es deseable aislar los datos de usuario y aplicaciones de los archivos del sistema operativo,
+la mayoría de los cuales son de lectura solamente, excepto durante la instalación y actualizaciones del sistema. Por ejemplo, /home, que contiene archivos específicos de los usuarios se suele poner en una partición por separado.
+
+Datos compartidos
+Múltiples sistemas operativos o máquinas pueden usar los mismos sistemas de archivos. Por ejemplo,
+/home podría estar montado como un directorio compartido en una red, a través de NFS. O alguien podría 
+ tener un sistema de inicio múltiple, incluso varias versiones de Linux, entre las cuales usted podría 
+desear compartir /usr/local o /home, por dar un par de ejemplos.
+
+Seguridad                                                                                                                                                                                                                                      
+Puede ser deseable imponer diferentes cuotas (espacio en disco), permisos y ajustes para diferentes partes del sistema.                                                                                                                        
+
+Tamaño                                                                                                                                                                                                                                         
+Algunos datos son más bien constantes y otros variables o volátiles, y a menudo pueden incrementar su tamaño un poco. 
+Por ejemplo, tales datos variables son almacenados generalmente en una partición montada en /var. Si la partición se 
+queda sin espacio disponible, en el caso de estar en una partición por separado de /, será menos probable que el 
+sistema se bloquee.
+
+Rendimiento                                                                                                                                                                                                                                    
+Los datos que tienen que ser leídos con mayor frecuencia, en grandes trozos de información, 
+serán accedidos más rápidamente si están en un disco rápido (como los SSD), o en términos
+anticuados, cercanos al centro del disco, en donde los tiempos de búsqueda son más cortos.
+
+Intercambio (swap)
+En los sistemas Linux es preferible tener un espacio de intercambio (conocido como swap)
+en una partición por separado, en lugar de un archivo en alguna partición que esté siendo
+utilizada con otro propósito. Esto tiene una ventaja secundaria, ya que los esquemas de hibernación utilizan el espacio en la partición de intercambio.
+
+
+* esquema comun de particionado
+  /boot
+  /
+  /home
+
+- tabla de particion
+
+* la tabla de particion esta contenida en el (MBR) master boot record la cual es de 512 bytes de longitud 
+  y la estructura  independiente del sistema operativo
+
+la tabla d particion tiene un tamanio de 64 despues del byte 446 del registro de arranque (reservados para codigo
+ maquina forman parte de GRUB 
+
+*solo una particion puede ser marcada como activa en el arranque 
+
+* cada entrada en la tabla de particion pesa 16 bytes
+  +bit activo
+  *chc es ignorado por linux
+  *tipo particion 
+  *direcion final chc ignorado por linux 
+
+* formatear particion
+  sudo mkfs.ext4 /dev/sda9
