@@ -1,0 +1,36 @@
+que son
+contienen software que puede ser cargado y descargado segun el sistema los necesite 
+la mayoria de componentes del kernel son modulos a excepcion de los elementos centrales 
+cuando un modulo se carga se hace una parte funcional del kernel 
+
+-herramientas manejo modulos kernel
+    lsmod: Lista los módulos cargados.
+    insmod: Carga módulos directamente.
+    rmmod: Remueve módulos directamente.
+    modprobe: Carga o descarga módulos, utilizando una base de datos preconstruida de los módulos con información de sus dependencias.
+    depmod: Reconstruye la base de datos de dependencia de módulos; es requerida por modprobe y modinfo.
+    modinfo: Proporciona información acerca de un módulo.
+
+- carga modulos 
+  sudo insmod /lib/modules/3.16.0-4-amd64/kernel/sound/drivers/snd-virmidi.ko 
+
+- montar modulos  
+ sudo insmod fat.ko 
+
+-verifico que este arriba
+
+sudo lsmod | grep fat                                                                                             
+fat                    61986  0 
+
+- quito el modulo no debe estar en uso 
+sudo rmmod fats
+
+- modprobe sirve para subir y bajar modulos
+sudo modprobe fat
+
+** no es posible cargar bi bajar un modulo que etsa siendo utilizado 
+   - con lsmod se saba si esta siendo utilizado el modulo por el o por otros los unicos que pueden no dejar
+     este rastro son los modulos de red 
+
+   
+
