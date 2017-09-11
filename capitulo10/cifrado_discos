@@ -1,0 +1,42 @@
++ cifrado a nivel de bloque es una de las protecciones mas robustas contra danios por perdida
+  o compromiso de informacion
+
++ no es posible cifrar una particion existente sin tener que copiar los datos a ella 
+
++ linux provee el cifrado linux unifien key setup (LUKS) 
+  - basado en crystup
+  - deido a que almacena toda la informacion necesaria en la cabecera de la particion
+    es simple migrar particiones a otros discos o sistemas 
+  - tambn puede ser usado para cifrar particiones de swap
+
++ crypsetup
+encripta particiones 
+sudo crypsetup luksformat /dev/sda1
+despues pide la clave con la cual se podra acceder al dispositivo
+
+-usar cifrado custom
+sudo crypsetup luksformat --cypher aes /dev/sda
+
+-abrir volumen cifrado
+sudo crypsetup --verbose luksopen /dev/sda
+
+-formatea el sistema de archivos 
+mkfs.ext4 /dev/sda
+
+-desmontar disco
+sudo umount /mnt
+
+-cierra la particion cifrada
+sudo cryptsetup --verbose luksClose SECRET
+
++agregar partcion cifrada en el arranque 
+agragrla en el fstab
+agregar linea en /etc/crypttab
+SECRET /dev/mapper/MYSECRET
+
++PASOS PARA TRABAJAR CON CRYPSETUP
+-crea particion para el dispositivo de bloque
+-darle formato con cryptsetup
+-crea contrasenia para dispositivo
+-monta el sistema de archivos de bloque
+-darle formato con un flie system standard ext4

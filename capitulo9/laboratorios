@@ -1,0 +1,41 @@
++uso dd para simular backup a un sistema de archivos 
+ dd if=/dev/zero of=imagefile bs=1M count=1024
+
++creo sistema de archivos en el archivo para este caso usare ext4
+ mkfs.ext4 imagefile
+
++montar en loop
+ sudo mount -o loop imagefile mountpoint
+
+
+//**lab 9.2 crea particiones con fdisk 
+
+//**lab 9.3 losetup 
+
++veo que dispositivo loop esta disponible
+ losetup -f 
+
++monta la imagen en el dispositivo loop
+ losetup /dev/loop1 imagefile
+
++muestra los dispositrivos que se estan utilizando
+losetup -a
+
++crea una etiqueta en la particion 
+ sudo parted -s /dev/loop1 mklabel msdos
+
++crea particiones en modo no interactivo con parted 
+ sudo parted -s /dev/loop1 unit MB mkpart primary ext4 0 256
+ sudo parted -s /dev/loop1 unit MB mkpart primary ext4 256 512
+ sudo parted -s /dev/loop1 unit MB mkpart primary ext4 512 1024
+
++verificar tabla de particiones 
+ fdisk -l /dev/loop1
+
++asociar nodo de dispositvo a la particion
+ sudo ln -s /dev/mapper/loop1p1 /dev/loop1p1
+
++ darle formato ala particion
+ sudo mkfs.ext4 /dev/loop1p1
+
++lo monta con mount 

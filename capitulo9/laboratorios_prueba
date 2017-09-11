@@ -1,0 +1,38 @@
++uso dd para simular backup a un sistema de archivos 
+ 
+
++creo sistema de archivos en el archivo para este caso usare ext4
+ 
+
++montar en loop
+
+
+
+//**lab 9.2 crea particiones con fdisk 
+
+//**lab 9.3 losetup 
+
++veo que dispositivo loop esta disponible
+ 
+
++monta la imagen en el dispositivo loop
+
+
++muestra los dispositrivos que se estan utilizando
+
+
++crea una etiqueta en la particion 
+ 
+
++crea particiones en modo no interactivo con parted 
+
+
++verificar tabla de particiones 
+
+
++asociar nodo de dispositvo a la particion
+ 
+
++ darle formato ala particion
+
++lo monta con mount 

@@ -1,0 +1,10 @@
++ cifrado a nivel de bloque es una de las protecciones mas robustas contra danios por perdida
+  o compromiso de informacion
+
++ no es posible cifrar una particion existente sin tener que copiar los datos a ella 
+
++ linux provee el cifrado linux unifien key setup (LUKS) 
+  - basado en crystup
+  - deido a que almacena toda la informacion necesaria en la cabecera de la particion
+    es simple migrar particiones a otros discos o sistemas 
+  - tambn puede ser usado para cifrar particiones de swap
