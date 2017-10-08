@@ -4,7 +4,7 @@ diferencias archivos
 compartido pueden ser algunos scripts de usuario 
 
 -no compartidos 
-archivos de inicio
+archivos de inicio, archivos bloqueo dispositivo
 
 -variables tales como los logs archivos que cambian durante la ejecucion del pc
 -constantes tales como los binarios esos no cambian nunca
@@ -74,7 +74,8 @@ en este directorio
       -los archivos en este directorio muestran la hora y fecha actual ya que 
        estan en constante cambio
 
-/sys  monta un seudosistema de archivos en memoria 
+/sys  monta un seudosistema de archivos en memoria , recopila informacion del sistema  , 
+      donde puede mmodificar el comportamiento del mismo
 
 /root directorio home de root 
 
@@ -102,3 +103,5 @@ w
   -/dev
   -/proc
   -/run
+
++ ninguna aplicacion deberia poder crear subdirectorios en raiz 
