@@ -52,3 +52,8 @@ estaban vacios y rc.sysinit no existia)
 
 + ver estatus todos los servicios 
   service --status-all
+
++pasos para agragar un servicio
+ -agregar script del servicio en /etc/init.d/nombreservicio
+ -asignele permisos ejecucion
+

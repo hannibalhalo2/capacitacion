@@ -1,0 +1,53 @@
+rpm -v verifica paquetes
+nomenclatura de verificacion paquetes
+    S: el tamaño de archivo difiere
+    M: los permisos del archivo y/o tipo difieren
+    5: el checksum MD5 difiere
+    D: discrepancia entre los números mayor/menor
+    L: discrepancia de ruta de enlace simbólico
+    U: el usuario propietario difiere
+    G: el grupo propietario difiere
+    T: el tiempo de modificación difiere
+    P:  las capacidades difieren
+
+ejemplos
+
+- rpm -v paquete
+S.5....T in.ntalkd.8   tamanio checksum tiempo de modificacion --> difieren
+
+- rpm -v paquete
+missin /usr/archivo   falta ese archivo
+
+- rpm -ivh  paquete i-> instala v-> verbose h-> imprime marcas de control
+
+-rpm -e paquete desistala paquete
+
+-rpm --test -e paquete prueba si la desistalacion tendra exito
+
+-rpm -Uvh   -u actualiza paquete si no existe se instala v -> verifica h-> marcas de control
+
+-rpm -Fvh *.rpm actualiza los paquetes en el directorio actual si esta en la version mas actual no hace nada , si busca y no encuetra el paquete en la base de datos no hace nada 
+
+-instalar/actualizar  un kernel
+rpm -ivh kernel-version.arch.rpm al usar -i actulaiza pero guarda el viejo en caso de que se presente un erro con el nuevo 
+
+-rpm2cpio
+extrae archivos de un rpm sin instalar el paquete 
+
+Cree el archivo cpio con el siguiente comando:
+
+$ rpm2cpio foobar.rpm > foobar.cpio
+
+Para listar los archivos en un rpm:
+
+$ rpm2cpio foobar.rpm | cpio -t
+
+pero una forma mejor de hacerlo es ésta:
+
+$  rpm -qilp foobar.rpm
+
+Para extraerlo en el sistema:
+
+$ rpm2cpio bash-4.2.45-5.el7_0.4.x86_64.rpm |  cpio -ivd bin/bash
+
+$ rpm2cpio foobar.rpm | cpio --extract --make-directories 
