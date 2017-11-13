@@ -1,0 +1,116 @@
+<<<<<<< HEAD:CAPITULO4_VIEJO/init_systemv_upstart_systemd.txt
+*/sbin/init primer proceso o tarea a nivel de usuario  se ejecuta desde el inicio hasta el apagado
+
++ init cordina las etapas posteriores al proceso de arranque
+
++ casi todas las distribuciones se basan en sysvinit de UNIX 
+
++ upstart creado po ubuntu y lanzado en la vercion 6
+
++ systemd es mas reciente el primero en implementarlo fue fedora
+
++ sysvinit inicia atravez de una secuencai de runlevels de 0 a 6 
+  runlevel 0   --> apagado sistema 
+  runlevel 1   --> modo monousuario
+  runlevel 2   --> modo multisusario sin nfs login de texto solamente
+  runlevel 3   --> modo multisusario con nfs y red login solo de texto 
+  runlevel 4   --> no utilizado
+  runlevel 5   --> modo multiusuario con nfs red login grafico con X
+  runlevel 6   --> reinicio
+
++ detectar runlevel 
+  sudo runlevel
+
++ cambiar de runlevel usuario 
+  sudo /sbin/telinit numero de run level deseado
+
++ cambiar de runlevel servicio en especifico
+  sudo chkconfig 234 name_service
+
++ etc/inittab se usaba para instruir a init y llevar el sistema a cada run level en debian y ubuntu ya no existe
+
++ rc.sysinit se ejecuta el cual ejecutara los archivos rc{0-6} inicio los demas servicios (en mi sistema eso archivos
+estaban vacios y rc.sysinit no existia)
+
++ los scripts de inicio comienzan con s los scripts de detencion con k
+
++ chkconfig 
+  -chkconfig deuvleve si un servicio esta configurado para ejecutarse
+  --list lista servicios
+  servicio on  configura para que el servicio arrenque en el proximo reinicio
+  servicio off configura para que el servicio NO arrenque en el proximo reinicio
+
++ anadir servicio al inicio
+  meter script /etc/init.d (guiarse con el skeleton para que corra)
+  chkconfig --add para habilitarlo
+
++ chkconfig numero que aparece luego de las s y ka en el simbolico 
+  chkconfig --level 2345 en que runlevels corre
+  s10 S el de inicio
+  k90  k si tiene detencion
+
++ en init.d estan los servicios que arrancan al inicio dela maquina
+
++ ver estatus todos los servicios 
+service --status-all
+=======
+*/sbin/init primer proceso o tarea a nivel de usuario  se ejecuta desde el inicio hasta el apagado
+
++ init cordina las etapas posteriores al proceso de arranque
+
++ casi todas las distribuciones se basan en sysvinit de UNIX 
+
++ upstart creado po ubuntu y lanzado en la vercion 6
+
++ systemd es mas reciente el primero en implementarlo fue fedora
+
++ sysvinit inicia atravez de una secuencai de runlevels de 0 a 6 
+  runlevel 0   --> apagado sistema 
+  runlevel 1   --> modo monousuario
+  runlevel 2   --> modo multisusario sin nfs login de texto solamente
+  runlevel 3   --> modo multisusario con nfs y red login solo de texto 
+  runlevel 4   --> no utilizado
+  runlevel 5   --> modo multiusuario con nfs red login grafico con X
+  runlevel 6   --> reinicio
+
++ detectar runlevel 
+  sudo runlevel
+
++ cambiar de runlevel usuario 
+  sudo /sbin/telinit numero de run level deseado
+
++ cambiar de runlevel servicio en especifico
+  sudo chkconfig 234 name_service
+
++ etc/inittab se usaba para instruir a init y llevar el sistema a cada run level en debian y ubuntu ya no existe
+
++ rc.sysinit se ejecuta el cual ejecutara los archivos rc{0-6} inicio los demas servicios (en mi sistema eso archivos
+estaban vacios y rc.sysinit no existia)
+
++ los scripts de inicio comienzan con s los scripts de detencion con k
+
++ chkconfig 
+  -chkconfig deuvleve si un servicio esta configurado para ejecutarse
+  --list lista servicios
+  servicio on  configura para que el servicio arrenque en el proximo reinicio
+  servicio off configura para que el servicio NO arrenque en el proximo reinicio
+
++ anadir servicio al inicio
+  meter script /etc/init.d (guiarse con el skeleton para que corra)
+  chkconfig --add para habilitarlo
+
++ chkconfig numero que aparece luego de las s y ka en el simbolico 
+  chkconfig --level 2345 en que runlevels corre
+  s10 S el de inicio
+  k90  k si tiene detencion
+
++ en init.d estan los servicios que arrancan al inicio dela maquina
+
++ ver estatus todos los servicios 
+  service --status-all
+
++pasos para agragar un servicio
+ -agregar script del servicio en /etc/init.d/nombreservicio
+ -asignele permisos ejecucion
+
+>>>>>>> cont cap 6 casa:capitulo4/init_systemv_upstart_systemd

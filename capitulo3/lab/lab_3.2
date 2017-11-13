@@ -1,0 +1,12 @@
+ipcs se utiliza para buscar fugas de memoriaen los procesos
+
+se detectaan cuando en la salida del ipcs wl status no devuelve nada 
+
+ipcs --human 
+me muestra pesos de los bloques de memoria compartida
+
+ipcs -p 
+me muestra a que pid pertenece ese bloque de memoria
+
+ps aux | grep -e pid -e pid 
+reviso a que binarios pertenecen 

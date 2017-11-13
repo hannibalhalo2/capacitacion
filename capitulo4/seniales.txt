@@ -1,0 +1,47 @@
+SENIALES
+
+Las señales se usan para emitir notificaciones para que los procesos 
+tomen acción en respuesta a eventos que generalmente son impredecibles
+
+*Las señales son uno de los métodos más antiguos de Comunicación Inter-Procesos (IPC) y se usan para notificar 
+ procesos acerca de eventos asincrónicos (o excepciones).
+
+*Por asincrónico entendemos que el proceso receptor de la señal puede:
+
+    No esperar que ocurra el evento.
+    Esperar el evento, pero no saber en qué momento va a ocurrir.
+
+* hay 2 formas de envias seniales 
+  -Desde el kernel a un proceso de usuario como resultado de una excepción 
+   o de un error de programación.
+  -Desde un proceso de usuario (enviele un kill a esa mierda)
+
+* las seniales solo se pueden enviar hacia
+  -procesos del mimo usuario
+   - siendo root  can burn that shit 
+
+* sigkill an sigstop no puedenm ser manipuladas
+
+* las seniales se usan para manejar 2 cosas
+   -Excepciones detectadas por el hardware (tal como una referencia ilegal a memoria).
+   
+   -Excepciones generadas por el ambiente (tal como la finalización prematura de un 
+    proceso desde la terminal del usuario).
+
+*  kill -l muiestra todas las seniales de kill
+
+*Las señales de SIGRTMIN se denominan como de tiempo real 
+
+*usa kill  (solo acepta pid)
+  kill -9 pid
+  kill -sigkill 1991
+
+  killall bash  --> mata todo con el nombre parametro
+  killall -9 bash
+  kill -sigkill bash   
+
+*uso pkill 
+  pkill [-signal] [options] [pattern]
+  pkill -u h4nn1b4l bash   mata todos los bassh solo de mi usuario
+
+ 
