@@ -1,0 +1,16 @@
+-dpkg el programa de bajo nivel instala y borra paquetes pero no satisface necesidades automaticamente, 
+ su universo se limita a saber que hay instalado en el equipo
+
+- nombre del paquete
+<name>_<version>-<revision_umber>_<architecture>.deb
+
+ejemplo
+forticlient-sslvpn_4.4.2333-1_amd64.deb    
+
+en ubuntu esto cambia
+forticlient-sslvpn_4.4.2333-1ubuntu1_amd64.deb
+
++ partes de un .deb
+
+.tar.gz que contiene las fuentes originales tal como son proporcionadas por el mantenedor del paquete
+.dsc contiene el nombredel paquete y otros metadatos tales como la arquitectura
