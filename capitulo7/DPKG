@@ -14,3 +14,19 @@ forticlient-sslvpn_4.4.2333-1ubuntu1_amd64.deb
 
 .tar.gz que contiene las fuentes originales tal como son proporcionadas por el mantenedor del paquete
 .dsc contiene el nombredel paquete y otros metadatos tales como la arquitectura
+
++ dpkg -l           lista los paquetes
+  dpkg -L paquete      lista los archivos instalados con el paquete del parametro
+  dpkg -p wget      muestra informacion acerca de un paquete
+  dpkg -I paquete   muestra infromacion paquete
+  dpkg -c paquetes  lista contenidos de un archivo de paquete
+  dpkg -S /etc/init/networking.conf  ver a que paquete pertenece ese archivo
+  dpkg -s wget      mostrar el estado de un paquete
+  dpkg -V package   ver integridad de un paquete instalado
+  dpkg --list package muestra los archivos que instalo el paquete
+
++ dpkg -i
+  dpkg -r desistala paquete pero deja los archivos de configuracion
+  dpkg -P desistala paquete borra  los archivos de configuracion
+
+
