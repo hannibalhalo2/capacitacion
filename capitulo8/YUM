@@ -1,0 +1,87 @@
++provee un nivel de servicios inteligente subyacente a RPM
+ -resuelve dependencias automaticamente instala actualiza y borra  
+  paquetes
+
+
+ +herramientas bajo nivel rpm , dpkg                                                                                                                                      
+
+ +herramientas alto nivel apt yum dnf zypper (trabajan con bases de datos de software instalan borran software de forma inteligente)                                      
+     -pueden usar repositorios locales como remotos
+     -automatizan la gestion de paquetes
+     -resuelven dependencias automaticamente 
+     -ahorran tiempo por que no hay descargar manualmente los paquetes y verificar dependencias 
+
+ +yum provee una interfaz a rpm tarea princiapl obtener paquetes de repositorios remotos       
+ 
+ +yum es usado por redhat fedora cientific linux
+
+ +yum install paquete
+
+ +eliminar informacion en cache de yum
+  yum clean [packages | metadata | expire-cache | rpmdb | plugins | all]
+ 
+ +archivos configuarcion yum 
+  ls -l /etc/yum.repos.d
+
+ +cat /etc/yum.repos.d/epel.repo
+ ver structura
+
+ +buscar paquetes repositorios remotos
+  yum search keyword
+
+ +buscar paquetes locales
+  yum list "*keyword*"         muestra los pquetes disponibles relacionados a paquete
+  yum list installed "paquete" lista los paquetes instalados que tiene que ver con paquete
+  
+ +ver dependencia paquete
+  yum deplist paquete
+
+ +info paquete 
+  yum info package
+
+ +yum -list
+  yum grouplist group1   lista grupos de paquetes
+  yum groupinfo group1   informacion sobre un grupo de paquetes
+  yum groupinstall "nombre grupo"        instala un grupo de paquetes
+  yum groupremove  "nombre grupo"        borra nombre grupo
+
++  yum provides "/logrotate.conf" muestra que paquetes contienen un cierto nombre de archivo
+
+ +yum install yum-plugin-verify
+  yum verify package
+  yum verify-rpm package  misma salida que rpm -V
+  yum verify-all package  lista todas las diferencias
+
+ +yum localinstall package instala desde un rpm local no es lo mismo que rpm -i
+  ya que rpm intentara resolver dependencias con paquetes remotos
+
+  +yum remove package1
+
+  +yum update package     actualiza ese apquete
+   yum update             verifica si hay actualizaciones
+   yum check-update
+   yum list updates       lista las actulizaciones
+
+   
+
+  +si el archivo de configuracion viejo funcionara con el paquete nuevo 
+   el sistema lo renombra con .rpmsave y usara uno nuevo le pondra .rpmnew
+ 
+  +ver capacidades adicionales de yum
+   yum list "yum-plugin"
+
+  +ver repos
+  yum repolist
+  
+  +iniciar shell interactiva para lanzar multiples comandos 
+  yum shell (recive como parametro archivos de texto y ejecutaal o que contengan)
+
+  +baja los paquetes pero no los instala
+  yum install --downloadonly package
+
+  +history d eyum
+   yum history
+
+  +dnf
+  destinada a serr el reemplazo de yum pero aun no es muy utilizada
+  
