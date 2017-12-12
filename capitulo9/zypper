@@ -1,0 +1,28 @@
++ hace la misma mierda que yum pero para suse
+
++ instala desistala paquetes resolviendo dependencias si es necesario  incluso rpm
+
++ zypper list-uptades
+  zypper repos
+  zypper search
+  zypper search -d                          busca solo paquetes referentes que contengan la palabra clave en el nombre o descripcion
+  zypper info
+  zypper info--requires bash                muestra dependencias de un paquete
+  zypper search --provides file
+  zypper install package
+  zypper --non-interactive install package  instala sin preguntar  nada
+  zyper update  actualiza paquetes
+  zypper --non-interactive update
+  zypper remove package
+  zypper shell                              abre shell interactivade zypper
+  zypper addrepo URI alias                  agrega repo
+  zypper removerepo  alias                  remueve repo
+  zypper what-provides filepath             busca que paquete tiene el archivo parametro
+
++ yast equivalente de synaptic
+
+
+
+
+
+
