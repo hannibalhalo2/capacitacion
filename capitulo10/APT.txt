@@ -1,1 +1,31 @@
-*
+*apt-get y apt-cache. Puede resolver dependencias automáticamente al instalar, actualizar y desinstalar paquetes. Accede a repositorios externos de software, sincronizándose con ellos, obteniendo e instalando software según se necesario
+
+*Advanced Packaging Tool
+
+*Estas herramientas invocan a su vez al programa de nivel inferior dpkg.
+
+*apt-get es la herramienta principal de la línea de comandos de APT para gestionar paquetes. Se usa para instalar, gestionar y actualizar paquetes individuales o el sistema completo
+
+*apt-get puede actualizar por completo la distibrucion (apt-upgrade)
+
+*Incluso hay extensiones (imperfectas) que le permiten a apt-get trabajar con archivos rpm.
+
+*apt-cache search paquete    busca o lista paquete
+ apt-cache search --names-only o -n  "bash" qa busca por el nombre uqe se le pase de parametro
+ apt-cache show apache2      muestra info paquete
+ apt-cache showpkg apache2   muestra info mas detallada
+ apt-cache depends apache2   muestra de que paquetes depende apache 2
+ apt-file search apache2.conf busque apache2.conf en el repositorio
+ apt-file find apache2.conf busque apache2.conf en el repositorio
+ apt-file list apache2       muestra los archivos que instala el paquete apache2
+ apt-get update              sincroniza el indice de archivos de paquetes con el repositorio fuente 
+ sudo apt-get install [package]
+ sudo apt-get remove [package]
+ sudo apt-get --purge remove [package]
+ sudo apt-get upgrade        instala las actualizacione que previamente sincronizo apt-get update
+ sudo apt-get upgrade package
+ sudo apt-get dist-upgrade   instala nuevos paquetes y sus nuevas dependencias esa es la diferencia con upgrade ya que upgrade solo                                 actualiza  los paquetes instalados
+ sudo apt-get autoremove     limpie los archivos de cache y cualquier otor que haya sido instalado 
+ sudo apt-get clean          ahorra espacio en disco 
+ 
+ *metapaquetes conjunto de dependencias para instalar un conjunto de paquetes a la vez ejemplo entornos tales como KDE Y GNOME
