@@ -1,0 +1,63 @@
+revisa la lista de herramientas de monitoreo que revise en el capitulo 10
+
+-uso de ps --help 
+ ps opcion pid
+
+- sus opciones pueden ser
+  standadr de unix con -
+  standar  bsd     con agrupaciones xfs
+  standard GNU   las largas --simple
+
+- opcion mas usas por mi ps -aux
+  explicacion salida ps -aux VSZ tamanio memoria virtual en kb
+                             RSS tamanio memoria residente 
+                             stat estado processo N prioridad baja
+                                                  L tiene paginas bloqueadas en memoria
+                                                  s lider de la sesion
+						  l multihebra
+                               			  - esta en el grupo de procesos en priemr plano
+- ps -auxf  muestra los porceso conectador por ascendencia
+
+- ps -elf agrega el tiempo de ejeucicion
+
+- otras opciones de ps 
+      -A o -e 
+    Selecciona todos los procesos.
+    -N 
+    Niega la selección (es decir, indica lo contrario).
+    -C 
+    Selecciona por nombre de comando.
+    -G 
+    Selecciona por ID real de grupo (también soporta nombres).
+    -U 
+    Selecciona por ID real de usuario (también soporta nombres).
+
+
+-ps -o (pid,uid,cmd,cputime,pmem) muestra una salida de ps personalizada solo con esos campor que quiera ver
+       separado por comas
+       sudo ps -o pid,pri,nice,command hay mas opciones consulte man
+
+- pstree provee breve descripcion de ascendencia de un proceso
+  pstree -aAp pid
+  
+  para ver desde proc la salida de pstree
+  ls -l /proc/pid/task
+
+- ps -elf muestra los ppid(id porceso padre3) de los procesos 
+
+- top posee una tasa de refresco de 3segundos
+  ver ayuda presione h
+
+- cabiar valor de nice con nice
+  nice -n valor comando
+
+- cambiar valor nice en tiempo de ejecucion
+  renice -n valor -p pid
+
+- uso comando dd
+  copia de un lugar a otro
+  dd if=origen of=destino
+
+- fg trae a primer plano lo que esta corriendo en segundo plano
+
+-jobs  trae lista de los jobs activos
