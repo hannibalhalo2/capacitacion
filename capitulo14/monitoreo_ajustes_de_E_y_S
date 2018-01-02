@@ -1,0 +1,41 @@
++cuellos de botella en disco
+ los problemas de rendimiento en el disco se dan por factores tales 
+ -memoria insuficiente
+ -hardware de red
+ -ajustes inadecuados
+
++que es un atasco de E/S 
+-cuando la CPU está esperando de forma ociosa que alguna operación de E/S se complete para poder continuar.
+- la red esté esperando a que los búferes se limpien
+
++iostat  herramienta para monitoreo de de actividad de entrada y salida 
+-despues de una breve coleccion de estadisticas cpu 
+ se pueden ver estadisticas de e/s 
+ tps (transacciones E/S por segundo; las solicitudes lógicas pueden combinarse con solicitudes reales),
+ bloques leídos
+ escritos por unidad de tiempo
+ donde los bloques son generalmente sectores de 512 bytes; y el total de bloques leídos y escritos.
+ 
+ -k muestra estadisicas en kb -m en mb
+
+ -N muestra informacion por nombre de dispositivo
+
+ -x muestra mas estadisticas la x es por extendido  
+
+ -explicacion siglas de el output esta en esta carpeta
+
++iotop solo corre como root
+ -muestra en tiempo real en una tabla el uso de entrada y salida
+ opciones iotop --help
+
++ionice ajusta planificacion y prioridad de un proceso
+ ionice [-c class] [-n priority] [-p pid ] [COMMAND [ARGS] ]
+
+valor de -c 
+ver imagen en carpeta
+
+valor de -n 
+la priorida va de 0 a 7 donde 0 es la mayor
+
+ejemplo
+ionice -c 2 -n 3 -p 30078

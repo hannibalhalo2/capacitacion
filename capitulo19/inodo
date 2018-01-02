@@ -1,0 +1,19 @@
++inodo estructuras de datos en el disco que contiene atributos de archivo
+ -cada archivo posee su propio inodo
+ -atributos
+  permisos
+  usuario y grupo propietario
+  tamanio
+  registros en el tiempo (al nanosegundo)
+    - ​Momento en el cual se realizó el último acceso
+    - Momento en el cual se realizó la última modificación del contenido
+    - Momento en el cual se realizó la última modificación del inodo.
+  
+  -los nombres de un archivo no se almacenan en el inodo sino que lo hacen en el archivo de directorio
+
+ +archivo de directorio
+ tipo de archivo en particular para asociar nombres de archivo a inodos
+ tipos de enlace
+ -duro       apuntan a un inodo
+ -simbolicos apuntan a un nombre de archivoel cual tiene un inodo asociado
+ 

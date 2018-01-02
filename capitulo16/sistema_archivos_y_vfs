@@ -19,6 +19,8 @@ relacionado con el sistema de archivos real en particular.
 
 *Variantes como vfat no diferencias permisos de lectura/escritura/ejecución para los campos dueño/grupo/todos;
 
+*vfat no soporta journaling
+
 *sistemas de archivos soportados por linux 
 Nombre	Descripción
  ext2    	 Sistema de archivos nativo de Linux
@@ -61,19 +63,44 @@ Cuando ocurre un error, por lo general sólo la última transacción necesita se
 *comando para ver que filesystem son soportados por el kernel 
 cat /proc/filesystem
 
+*ventajas de tmpfs sobre un disco RAM
+ -no es necesario formatearlna antes de usar
+ -utiliza memoria de una forma eficiente
+ -se puede usar de ram como de area de intercambio
+
 *sistema de archivos especiales 
 Sistema de archivos
 	 Punto de montaje        	 Propósito
- rootfs	     Ninguno	 Provee un directorio raíz vacío durante la carga del kernel.
- hugetlbfs	 Cualquiera	 Provee acceso a páginas extendidas (2 o 4 MB en X86).
- bdev	 Ninguno	 Usado para dispositivos de bloque.
- proc	 /proc	 Seudosistema de archivos a través del cual se accede a muchas estructuras y subsistemas.
- sockfs	 Ninguno	 Usado por sockets BSD.
- tmpfs	 Cualquiera	 Disco RAM para intercambio, con redimensionamiento.
- shm	 Ninguno	 Usado por memoria compartida de System V IPC.
- pipefs	 Ninguno	 Usado para pipes (tuberías).
- binfmt_misc	 Cualquiera	 Usado por varios formatos ejecutables.
- devpts	 /dev/pts	 Usado por seudoterminales Unix98.
- usbfs	 /proc/bus/usb	 Usado por el subsistema USB para dispositivos dinámicos.
- sysfs	 /sys (o en otra parte)	 Usado como árbol de dispositivo.
- debugfs	 /sys/kernel/debug (o en otra parte)	 Usado para depuración de acceso a archivos.
+ rootfs	       Ninguno	         	Provee un directorio raíz vacío durante la carga del kernel.
+ hugetlbfs     Cualquiera	 	Provee acceso a páginas extendidas (2 o 4 MB en X86).
+ bdev	       Ninguno	         	Usado para dispositivos de bloque.
+ proc	       /proc	         	Seudosistema de archivos a través del cual se accede a muchas estructuras y subsistemas.
+ sockfs	       Ninguno	         	Usado por sockets BSD.
+ tmpfs	       Cualquiera	 	Disco RAM para intercambio, con redimensionamiento.
+ shm	       Ninguno	         	Usado por memoria compartida de System V IPC.
+ pipefs	       Ninguno	         	Usado para pipes (tuberías).
+ binfmt_misc   Cualquiera	 	Usado por varios formatos ejecutables.
+ devpts	       /dev/pts	         	Usado por seudoterminales Unix98.
+ usbfs	       /proc/bus/usb	 	Usado por el subsistema USB para dispositivos dinámicos.
+ sysfs	       /sys (o en otra parte)   Usado como árbol de dispositivo.
+ debugfs       /sys/kernel/debug (o en otra parte)	 Usado para depuración de acceso a archivos.
+
++crear y montar sistema de archivos en loopback
+-crea un espacio de 512 mb lleno de ceros
+ dd if=/dev/zero of=junk bs=1m count=512
+-le aplica un file system (xfs puede ser el que quiera) a ese espacio de ceros y le asigna junk de nombre
+ mkfs.xfs junk
+-montelo
+mount junt /mnt
+
++creacion y montaje de un tmpfs
+cree un folder que se llame /mnt/tmpfs 
+montelo en /mnt/tmpfs
+mount -t tmpfs none /mnt/tmpfs por default lo crea de la mitad de la ram para crearlo de menor o mayor tamanio -o
+mount -t tmpfs -o size=1G none /mnt/tmpfs
+
++siempre hay un tmpfs montado en 
+ /dev/shm
+
++muchas aplicaciones usan el anterior tmpfs en casos de uso de memoria compratida POSIX  debido a que cualquiera puede leer y escribir en el por eso es un 
+ buen lugar para archivos temporales

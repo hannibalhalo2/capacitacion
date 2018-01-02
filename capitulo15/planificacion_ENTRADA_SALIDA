@@ -1,0 +1,67 @@
++ el planificador provee la interfaz entre la capa generica de bloques y los conductores de dispositivo fisico de 
+  bajo nivel 
+
++ la memoria vistual y el virtual file sistem (VFS) hace solicitudes de E/S
+
++Cualquier algoritmo planificador de E/S tiene que satisfacer ciertos requerimientos (los que a veces entran en conflicto):
+
+    Los tiempos de acceso al Hardware deben minimizarse; es decir, las solicitudes deben ordenarse de acuerdo a la ubicación física en el disco. Esto conduce a un esquema de ascensor, en donde las solicitudes son insertadas en la cola pendiente en orden físico.
+    Las solicitudes deben mezclarse en tanto se pueda para obtener una región contigua del mayor tamaño posible, lo cual también minimiza el tiempo de acceso al disco.
+    Las solicitudes deben ser satisfechas con la menor latencia posible; de hecho en algunos casos el determinismo (en el sentido de los plazos) puede ser importante.
+    Las operaciones de escritura generalmente pueden esperar a migrar desde caché a disco sin que los procesos se estanquen. Sin embargo, las operaciones de lectura requieren siempre que un proceso espere la finalización antes de seguir adelante. Favorecer las lecturas sobre las escrituras conduce a mejorar las operaciones en paralelo y la capacidad de respuesta del sistema.
+    Los procesos deben compartir el ancho de banda de E/S de forma justa, o al menos priorizado de forma consciente; aunque esto signifique cierta desaceleración del rendimiento global de la capa de E/S, el rendimiento de los procesos no debería verse muy afectado.
+
++ dependiendo la carga de trabajo el kernel de linux se le pueden configurar 3 algoritmos de planificacion 
+
+linux ...  elevator=[cfq|deadline|noop]
+
+Al menos uno de los algoritmos de planificación de E/S debe estar compilado en el kernel. Las opciones actuales son:
+
+    Completely Fair Queueing (CFQ)
+    Deadline Scheduling
+    noop (Un esquema simple)
+
+la opCion por defecto es CFQ O DEADLINE SHEDULING
+
++LOS ssd no requieren sistema de ascensor usan la tecnica conocida como nivelacion de desgaste
+
++para ver si un disco es ssd o no 
+cat /sys/block/sda/queue/rotational
+1 = es un disco normal
+0 = es ssd
+
++ ver sistema de planificacion que usa el disco 
+cat /sys/block/sda/queue/rotational 
+el que sale entre corchetes es el usado 
+
++cambiarlo el sistema de planificacion
+$ echo noop > /sys/block/sda/queue/scheduler
+
+$ cat /sys/block/sda/queue/scheduler
+
+[noop] deadline cfq
+
++ver opciones de el planificador
+cat /sys/block/sda/queue/iosched/
+
++CFQ
+-propaga el ancho de banda entre todos los procesos 
+-cada proceso tiene su cola de e/s
+-el numero de colas fijo es 64
+-el desencole se hace mediante round robin
+-cada cola funciona en ORDEN FIFO
+-PARA EVITAR EXCESIVAS BUSQUEDAS SE SELECIONA UNA RONDA COMPLETA Y SE PASA A COLA DE DESPACHO
+-parametros ajustables(imagen carpeta)
+
+
++ DEADLINE
+- reordena agresivamente solicitudes con el objetivo de mejorar el rendimiento general imita la inanicion por falta
+  de recursos
+- a cada solicitud se le asigna una fecha limite 
+- las solicitudes de lectura obtienen una prioridad mas alta que las de escritura
+-maneja 5 colas
+ 2 listas ordenadas lectura y escritura respectivamente ordenadas por bloque de inicio
+ 2 listas FIFO una para lectura y otra para escritura
+ 1 contiene solicitudes para ser enviadas al controlador de dispositivo
+-parametros deadline imagen
+

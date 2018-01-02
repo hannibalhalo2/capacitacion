@@ -25,11 +25,14 @@ su tranferencia va desde 5mb/s a 160mb/s
  serian punto a punto que viene a remplazar SCSI las tasas de transmision son similar a SATA pero el rendimiento es
  mejor
 
+- usb  las memorias y discos externos son vistos como scsi
+
 * geometria discos
 los discos giratorios se componen de uno o mas platos los cualesson leidos por uno o mas cabezales leeen una
 pista amedida que giran
-las pistas se dividen en bloques llamados sectores generalmente de 512
-cilindor es un grupo que esta formado por una misma pista en todos los platos
+las pistas se dividen en bloques llamados sectores generalmente de 512bytes actualmente hay unos con 4kb
+entre mas grande el sector mas demoradas seran las tranferencias 
+cilindro es un grupo que esta formado por una misma pista en todos los platos
 
 *particiones
 consisten en grupos fisicamente contiguos de sectores o cilindros
@@ -40,6 +43,9 @@ consisten en grupos fisicamente contiguos de sectores o cilindros
 *SATA soporta 15 en un disco 1-4 son primarias 5-n son logicas
 
 *el primer disco se denomina sda el segundo sdb y asi sucesivamente
+
+*en linux las particiones no es necesario que terminen en los limites del disco pero en otros S.O este si es un 
+ problema por lo cual linux trata de particionar en los limites
 
 *RAZONES por las cuelas particionar
 
@@ -92,6 +98,9 @@ la tabla d particion tiene un tamanio de 64 despues del byte 446 del registro de
   *chc es ignorado por linux
   *tipo particion 
   *direcion final chc ignorado por linux 
+  *sector de inicio linealmente desde 0
+  *numero sectores en particion
+  linux solo usa los ultimos 2 campos para direccionamiento utilizando el metodo de direccionamiento de bloque logico
 
 * formatear particion
   sudo mkfs.ext4 /dev/sda9
@@ -113,6 +122,7 @@ ID3 --> /dev/sdb
 ID2 --> /dev/sdc
 ID4 --> /dev/sdd
 
+-ls -l /dev muestra los nodos de dispositivo disponibles
 
 blkid
 lista los discos con uid y otros atributos
@@ -131,6 +141,10 @@ lista los discos con nombre ne formato arbol
 dd if=disco a copiar of=disco a destino bs=512  count=1
                                                                          blocks
 dd if=/dev/sda of=/dev/
+
++restaurar
+
+dd if=/dev/backup of=/dev/discoarestaurar bs=512 count=1
 
 - bs se recomienda 512 ya que entre mas pequenio es mas seguro
 - count copy only N input blocks
@@ -156,7 +170,7 @@ q sale sin realizar cambios
 
  -->creacion / borrado / redimension particion
 
-   -sudo fdisk disco
+   -sudo fdisk /dev/disco
    -p para listar las particiones
    me fijo muy bn el punto de arranque de la particion START
    -d para borrar
@@ -168,7 +182,7 @@ q sale sin realizar cambios
   - t para decir de que tipo quiero mi nueva partcion (este tipo se puede ver con 
      la opcion p de fdisk en este caso es Linux)
   -w para escribir los datos en el disco  
-
+  -q para salir
 sudo partprobe -s 
 prueba una tabla de partciones recien creada en caliente 
 

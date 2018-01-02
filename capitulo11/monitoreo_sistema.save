@@ -1,0 +1,70 @@
+herramientas monitoreo
+top
+uptime
+ps         informacion proceso
+pstree     infromacion proceso y sus conexiones
+mpstat     uso de procesador multiple
+iostat     uso del procesador y estadistyicas de entrada y salida (yo vi los discos)
+sar        muestra y recopila informacion acerca de la actividad del sistema
+numastat   informacion de non uniform memory architecture
+strace     informacion acerca de todas las llamadas de sistema de un proceso
+free       
+vmstat     estadisticas detalladas de memoria virtual 
+pmap       mapa de la memoria de un proceso pmap pid  devuelve el binario que ejecuta el proceso
+netstat
+iptraf     monitoreo de las interfaces de red iptraf-ng 
+tcpdump    analisis detallado de los paquetes de red y trafico
+wireshark  analisis detallado del trafico de red
+
+- /proc /sys contiene mucha infoirmacion acerca del sistema pero estos oslo existen en memoria  si revisa la particion en prio estara vacia ya que existe solo como puntop de montaje 
+
+- /proc ne sus inicios proc posee informacion acerca de todos los procesos que corren actualmente ne el quipo
+  actualmente se puede encontrar en el interrupciones memoria red   
+  
+- /proc con el pid de un proceso puede acceder al folder y revisar algunos de us atributos
+
+- /archivo especial para saber con que linea se ejecuto el comando /proc/pid/cmdline
+
+-/proc/interrupts enmcuentra las interrupciones que han sucedido
+
+-/proc/sys
+abi      contiene archivos con informacion binaria de aplicacion raramente se usa 
+debug    control de reportes de exepciones 
+dev      parametros de dispositivos (discos cdrom)
+fs       parametros de sistemas de archivos
+kernel   parametros de la kernel
+net      parametros de red hay subdirectorios para ipv4 netfilter
+vm       parametros de memoria virtual
+
+- informacion no relacionada con procesos que se encuentra en /proc
+  linea comandos kernel
+  informacion y modelo cpu
+  estadisiticas uso de memoria
+  informacion particiones discos
+  
+- stress binario que se descarga que estresa la maquina
+
+- cambiar parametros en /proc/sys
+  - revisar parametros
+    $ ls -l /proc/sys/kernel/threads-max
+    $ cat /proc/sys/kernel/threads-max
+    129498
+
+  -cambiar
+    $ sudo bash -c 'echo 100000 > /proc/sys/kernel/threads-max'
+    $ cat /proc/sys/kernel/threads-max
+    100000
+
+-/sys parte integral de el modelo unificado de dispositivos
+
+-/sys/class/net  ver dispositivos de red
+
+-/sys/class/net/lo   ver atriburos des dispositivo de red de loopback
+
+-sar informador de actividad de sistema 
+ sar options interval count
+ sar -u      1        1
+si no se le pasan parametros devuelve un reporte de uso de cpu
+ opciones diapositiva 11.10
+ para ver esto graficamente toca instalar ksar
+

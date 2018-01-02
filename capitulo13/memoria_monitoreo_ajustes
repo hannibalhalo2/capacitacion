@@ -1,0 +1,63 @@
+Al ajustar parámetros en /proc/sys/vm, la mejor práctica suele ser modificar una cosa 
+a la vez y analizar los efectos. Las tareas principales son las siguientes:
+
+Controlar los parámetros de flujo; es decir, cuántas páginas se permite que estén sucias (en el área de intercambio) y cuán a menudo se vacían al disco.
+Controlar el comportamiento del área de intercambio; es decir, cuántas páginas que reflejan contenidos de archivo pueden permanecer en memoria en comparación a las que necesitan ser escritas a disco debido a que no tienen otra copia de seguridad.
+Controlar cuánto desborde de memoria se permite, ya que muchos programas no necesitan la cantidad total de memoria que solicitan, en particular debido a las técnicas COW (copy on write).
+
+-herramienta monitoreo memoria
+
+	free
+	vmstat     estadisticas detalladas de memoria virtual
+	pmap       mapa de la memoria de un proceso pmap pid  devuelve el binario que ejecuta el proceso
+
+-/proc/sys/vm contiene muchos ajustes para controla la memoria virtual 
+
+-atributos a cambiar en /proc/sys/vm (13.5.b)
+
+-vmstat 
+ vmstat options delay count
+ vmstat           2     4
+
+-campos salida vmstat en el man 
+
+-vmstat -a 2 4
+muestra la memoria activa e inactiva
+ vmstat -s 
+muestra estadisticas de memoria no se repite 
+ vmstat -d
+muestra estadisiticas de disco hay otras opciones de discop y particones ir al man de vmstat
+ vmstat
+vmstat -p /dev/sda5 
+muestra estadisticas del aprticion
+
+-/proc/meminfo
+se puede encontrar en resumen largo de estadisiticas de memoria
+
+13.7.b significado siglas
+
+-la tarea de la swap es agregarse como memoria cuando la ram se llena  descpues de ram y swap se llena se empiezan
+a denegar os pedidos de mmeoria 
+
+-la memoria que asigna un proceso padre para su ejecucion se replica en caso de que tenga un proceos hijo ejemplo 
+ si proceso padres reserva una mega su hijo tambn tendra esa mega usela o no la use en su totalidad 
+ es posible modificar esto desde 
+ /proc/sys/vm/overcommit_memory
+ 0: (valor por defecto) Se permite el overcommit, pero se deniegan overcommits obvios. Se les asigna un poco más de memoria a los usuarios root que a los normales.
+ 1: Todas las solicitudes de memoria pueden realizar un overcommit.
+ 2: Deshabilita el overcommit. Las solicitudes de memoria serán denegadas cuando el total de memoria requerida alcance el tamaño del área de intercambio más un porcentaje configurable de la RAM (50 por defecto). Este factor puede modificarse en /proc/sys/vm/overcommit_ratio. 
+
+-cuando la memoria se agota se ejecuta el OutOfMemory-killer (OOM-killer)
+para decidir que procesos deben ser terminados2
+se decice por su valor de maldad que puede ser visto en /proc/pid/oom_score
+los usuarios normales pueden aumentar la maldad del proceso en /proc/pid/oom_score_adj pero solo root puede disminuirlo
+
+-swapoff -a libera y apaga  la swap
+-swapon  -a activa la swap 
+
+-dmesg para revisar que paos y cuando fue invocado el omm killer
+
+- la memoria usada para cache de archivos tiene menor prioridad que la de procesos del sistema
+  si se acaba la memoria oomkiller matara primero la memoria de la cache de archivos 
+
+
