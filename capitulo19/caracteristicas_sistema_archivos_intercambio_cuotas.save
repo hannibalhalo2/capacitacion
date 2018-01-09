@@ -1,0 +1,45 @@
+aprender uso de 
+-quotacheck
+-quotaon
+-quotaoff
+-edquota
+-quota
+
++ linux usa un sistema de dememoria virtual en el cual el sistewma funciona como si tuviera mas memoria de la que tiene esto funciona de 2 maneras
+  -muchos progrmamas no usan toda la memoria que tiene permitido usar se debe a que los procesos hijos heredan una copia de las regiones de memoria de los padres 
+  -cuando la presion de memoria se vuelve importante regiones de memoria menos activapueden ser escritas en la swap y pueden ser llamadas solo cuando se requieren nuevamente
+
+-linux permite multiples areas de intercambio
+
+-cada area tiene una prioridad asociada prioridad alta son llenadas mas rapidamente que las de prioridad baja 
+
+-el tamamnio de la swap debe ser el mismo de la ram 
+
+-ver cuanto se esta usando de la swap en tiempo real 
+ cat /proc/swaps
+
+-unicos comandos para interactuar con la swap
+    mkswap: formatea una partición o archivo de intercambio
+    swapon: activa una partición o archivo de intercambio
+    swapoff: desactiva una partición o archivo de intercambio
+
+-dirtypages paginas que han sido modificadas y no tiene respaldo fisico
+
+-la mmeoria utilizad por el kernel de forma opuesta a la utilizado por las aplicaciones nunca se traslada a la swap
+
++Linux puede usar y aplicar cuotas en sistemas de archivos. 
+Las cuotas de disco les permite a los administradores controlar el espacio máximo que usuarios o grupos en particular tienen habilitados para su uso. 
+Se permite una flexibilidad considerable y las cuotas pueden ser asignadas en base a cada sistema de archivos. 
+Se provee de protección para que los usuarios no agoten los recursos colectivos.  
+
++herramientas para controlar cuotas 
+    quotacheck: genera y actualiza los archivos que llevan la cuenta de las cuotas
+    quotaon: habilita el sistema de cuotas
+    quotaoff: deshabilita el sistema de cuotas
+    edquota:  se usa para editar cuotas de usuarios o grupos
+    quota: informa acerca del uso y límites de las cuotas.
+
++las operaciones de cuota depende de que exista los archivos aquota.user y aquota.group en /
+
++ las cuotas se pueden habilitar y desabilitar
+
