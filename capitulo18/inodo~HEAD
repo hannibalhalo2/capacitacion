@@ -1,0 +1,94 @@
++inodo estructuras de datos en el disco que contiene atributos de archivo
+ -cada archivo posee su propio inodo
+ -atributos
+  permisos
+  usuario y grupo propietario
+  tamanio
+  registros en el tiempo (al nanosegundo)
+    - ​Momento en el cual se realizó el último acceso
+    - Momento en el cual se realizó la última modificación del contenido
+    - Momento en el cual se realizó la última modificación del inodo.
+  
+  -los nombres de un archivo no se almacenan en el inodo sino que lo hacen en el archivo de directorio
+
+ +archivo de directorio
+ tipo de archivo en particular para asociar nombres de archivo a inodos
+ tipos de enlace
+ -duro       apuntan a un inodo
+ -simbolicos apuntan a un nombre de archivoel cual tiene un inodo asociado
+ 
++atributos extendidos
+ existen cuatro espacios de nombres
+ usuario
+ de confianza
+ seguridad
+ sistema
+ 
++los valoresde los atributos son almacenados en el inodo del archivo  y pueden 
+ ser modificados y configurados solo por root
+ se ven con lsattr se configuran con chattr
+
+ i inmutable no puede ser cambiado ni por el mismisimo cristo hecho root este 
+   atributo solo puede ser puesto y cambiado por root
+ 
+ a agregar solamente atributo solo puede ser puesto y cambiado por root
+
+ d no respaldar si tiene este atributo dump no lo respaladara
+
+ A no actualizar atime no se modifica su registro atime cuando el archivo es 
+   accesado pero no modificado , esto puede incrementar el rendimiento debido 
+   a que reduce la cantidad de actividad de E/S del disco 
+
++ chattr +- =mode filename
+ mas informacion en el --help y man 
+ uso chattr -RV                +permiso archivo
+            recursivo verbose
+ -si posee al menos un atributo extendido ademas del e no se puede borrar el 
+  archivo
++ lsattr filename
+
++ crear sistemas de archivos
+  mkfs -t tipo disco
+  mkfs -t ext4 /dev/sda10
+
++ reparar sistemas de archivos
+  fsck -t tipo disco
+  fsck -t ext4 /dev/sda1
+ - forzar revision en el proximo reinicio para verificar /
+   da que en el reinicio estara desmontado y seraa mucho mas facil
+   sudo touch /forcefsck
+   sudo reboot
+ -revisar filesystem
+  fsck -f particion fuerza la revision para mas opciones fsck --help
+
++mount
+ mount se usa para montar discos o particiones en puntos de montajes los cuales
+ pueden ser directorios creados anteriormente
+ - curiosidad si se crea un directorio con archivos y en ese directorio se monta 
+   un file system los datos antiguos se ocultaran hasta que desmonte el filesystem
+
+ -comandos equivalentes para montar el disco en /home
+  mount /dev/sda2 /home
+  mount LABEL=HOME /home
+  mount -L home /home
+  mount UUID=1234  /home
+  mount -U 1234   /home
+
+ -param as opciones especificas ir al man o --help
+
++umount desmonta particiones o discos de un punto de montaje
+ umount /dev/sda3
+ umount /home
+ -para desmontar una particion no debe de estar en uso 
+
++en etc/fstab puede encontrar las particiones con su respectivos puntos de montaje
+ - atributos mostrados
+   -nodo etiqueta o UUID
+   -punto de montaje 
+   -lista de opciones separados por comas
+   -frecuencia de dump o un 0 usado por el comando dump -w
+   -fsck pass numero de verifcacion o 0 lo que signifca que no se comprueba en el 
+    estado de arranque
+
++dumpe2fs muestra muchos datos sobre una particion 
+ dumpe2fs /dev/loquesea
