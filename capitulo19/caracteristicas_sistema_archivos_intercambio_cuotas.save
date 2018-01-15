@@ -23,6 +23,12 @@ aprender uso de
     swapon: activa una partición o archivo de intercambio
     swapoff: desactiva una partición o archivo de intercambio
 
++ aumentnando la swap desde archivo
+  -sudo dd if=/dev/zero of=swpfile bs=1M count=1024 
+  -sudo mkswap swpfile
+  -sudo swapon swpfile
+  -cuando termine solo user swapoff swpfile y luego borrelo
+
 -dirtypages paginas que han sido modificadas y no tiene respaldo fisico
 
 -la mmeoria utilizad por el kernel de forma opuesta a la utilizado por las aplicaciones nunca se traslada a la swap
@@ -42,4 +48,83 @@ Se provee de protección para que los usuarios no agoten los recursos colectivos
 +las operaciones de cuota depende de que exista los archivos aquota.user y aquota.group en /
 
 + las cuotas se pueden habilitar y desabilitar
+
++ para poder usar el sistema de cuotas es necesario haber montado el sistema con las opciones de cuota de usuario y grupo sin eso nada funcionara
+  -pasos para implementar un sistema de cuotas
+     -montar filesystem con las opcionesde cuota de ususario y/o grupo
+       agregar las opciones usrquota y/o grpquota a la entrada en el /etc/fstab
+       remontar el sistema de archivos
+     -ejecutar quotacheck en el sistema para configurar cuotas
+     -habilitar cuotas en el sistema de archivos
+     -configurar las cuotas con edquota
+
+ejemplo
+
+  agregamos opciones en fstab
+  /dev/sda5 /home ext4 defaults,usrquota 1 1
+                                grpquota
+  remonte la particion
+  mount -o remount /home
+  quotaon -vu /home
+  edquota someusername
+
+ -quotacheck : es utilizado generalmente cuando las cuotas ya han sido activadas
+               o cuando necesitan ser actualizadas
+
+ - quotacheck -ua               actualiza los archivos de usuario para todos
+                                los sistemas de archivos en /etc/fstab con
+                                opciones de cuota de usuarios
+ -quotacheck -ga                lo mismo que el de arriba pero para cuotas de grupo
+
+ -quotacheck -u filesystem    actualiza el archivo de usuario solo para un filesystem
+                                solo para cuotas de usuario
+
+ -quotacheck -g filesystem      lo mismo que el de arriba para cuotas de grupo
+
++ quotaon   activa las quotas
+  quotaoff  desactiva las quotas
+las opciones de los dos son iguales quotaon  --help
+                                    quotaoff --help
+  son el mismo programa solo depende de como lo invoque on o off
+
+-  ejemplo
+-  quotaon -av          activa las quotas y da verbose
+       off
+
+-  quotaon -avu          activa las cuotas da verbose solo para las de usuario
+       off
+             g          misma joda para grupos
+
+
++ quota -u                      muestra las quotas de el usuario
+  quota -g                                               grupo
+
+
++ edquota   	       -ejecuta el editor de cuotas para el usuario o grupo
+		        especifico ,crea un archivo temporal con una representacion
+		        de texto de las cuotas de disco actuales para ese usuario
+  			o grupo
+
+		       -invoca un editor con el fin de modificar las cuotas
+
+		       -lo unicos campor que pueden ser editados en la cuota 
+		        son los limites soft y hard los demas campos son informativos
+   		
+	               -opciones edquota -h
+
++ las cuotas parausuarios y grupos pueden estar configuradas parabloques de discos
+  o nodos
+
++ los limites soft pueden ser configurados con periodos de gracia los hard no 
+  para configurar periodo de gracia edquota -t
+
++df (disk free) si con el nombre no te queda claro estas jodido
+
++du (disk usage) muestra de el parametro de lo que le pase
+ opciones mas usadas aH
+ du -csh loquequieropesar		
+ c total produce un gran total
+ s solo despliega total suprimiendo los subdirectorios
+ h humano	
+ mas opciones en --help
 

@@ -1,0 +1,189 @@
+herramientas utilizadas
+-dumpe2fs
+-tune2fs
+-e4defrag
+
+
++ext4 es la alternativa por defecto en los sistemas gnu linux hoy por hoy
+
++ext2 variedad nativa de linux esta disponible en todos los sitemas no se usa hoy 
+      en dia 
+
++ext3 extension de ext2 incluia journaling tenia el mismo disenio en disco a 
+      excepcion de el archivo journal
+
++ext4 incluyo mejoras significativas como el uso de extents(grupo de bloques 
+      continuo su uso mejora el rendimiento de archivos de gran tamanio y 
+      reduce la fragmentacion) en vez de listas de bloque de archivo
+
++ rhel usa xfs en vez de ext4
+
+**caracteristicas ext4
+
++ existe una caracterisitica entre VFS y los sistemas de archivos ext2/3/4 
+  debido a que cada uno ha sido diseniado sobre la base del otro
+
++ tamano del bloque se seleciona cuando el sistema de archivos se construye
+  puede ser de:
+  512  bytes
+  1024 bytes
+  2048 bytes
+  4096 bytes es usado por defecto a menos que la particion sea muy pequenia
+  -los tamnios grandes de bloque pueden ser mas eficientes en terminos de minimizar
+   acceso al disco
+  -el sistema de gestion de memoria del kernel requiere que solamente un numero de 
+   bloques quepa en una pagina de memoria por lo tanto es posible tener bloques 
+   de 8k en una plataforma x86 en donde las paginas son de 4k por defecto
+  
++el numero de inodos en el sistema de archivos tambien puede ser ajustado lo cual
+ podria ahorrar espacio en disco
+
++reservacion de inodos --> consiste en reservar un numero considerable de inodos
+                           cuando un directorio se crea con la idea de ser usado
+ 			   en el futuro esto mejora el rendimiento ya que cuando
+			   se crean archivos en ese directorio este ya tiene inodos
+                           reservados
+
++ si la ruta de un sinbolico es menor de 60 caracrteres se guarda directamente en 
+  el inodo
+
+** DISENIO DE EXT4
+
++ todos los campos son escritos en disco en orden little-endian
+
++ los bloques de disco se dividen en grupos de bloques cada uno de los cuales
+  contiene inodos y bloques de datos alamacenados de forma que reduce el tiempo 
+  de acceso
+
++disenio de un grup ode bloques standard
+ -grupo de bloques 0 
+  los primeros 1024 bytes nose usan le ceden el espacio al booteo
+ -el superbloque comenzara en el primer bloque con excepcion del bloque0
+ -descriptores de grupo y un numero de bloques (Group Description Table)
+ -mapade bits de bloques de datos 
+ -mapa de bits de inodos
+ -tablas de inodos
+ -bloques de datos
+
++ los bloques de datos son preasignados a archivos antes de que sean usados 
+  asi cuando el tamani ode un archivo cres usa el espacio adyacenteque ha sido 
+  previamente reservado
+
++ el superbloque contiene campos de bit los cuales son usados para saber si el 
+  sistema requiere verificacion el estaod puede ser 
+  - clean   se desmonto de forma limpia previamente
+  - dirty   generalmente significa que esta montado
+  - unknown no se desmonto de forma limpia como cuando hay bloqueo o caida de sistema
+
+  - en los ultimos 2 cas fsck sera ejecutado para resolver problemas de montado
+
++ el  primer bloque en el sistema es el bloque de arranque y esta reservado para 
+  el arranque de la partcion
+
++ despues del bloque de arranque siguen los siguientes
+-----------------------------------------------------------------------------------
+| superbloque | descriptores | mapa de bits |mapa de bits|tabla de   |data bloques|
+|             |   de grupo   | de bloques de| inodos     |inodos     |de datos    |
+|             |	             |	datos       |            |(n bloques)|(nbloques)  | 
+-----------------------------------------------------------------------------------
+
++ el primer y segundo bloque en circuntancias normales siempre seran como se ven 
+  arriba
+
++el kernel solo usa los bloques que estan el primer grupo
+
++ si hay algun problema con las copias maestras va al siguiente hasta que encuentra
+  uno en  buen estado y la estructura del s.o se reconstruye esta redundancia
+  hace que sea dificil que un sistema de archivos se estropee siempre y cuando se 
+  verifique periodicamente
+
++ ver la situacion de los superbloques
+ 
+ dumpe2fs disco | grep superblock
+
++ el numero de bloques esta limitado debido al hecho que el mapa de bits de bloque
+  el cual identifica bloques usados y disponibles en el grupo - tiene que caber
+  en un bloque unico
+
++ el asignador de bloques trata de mantener los bloques de cada archivo 
+  en el mismo grupo de bloques para disminuir los tiempos de busqueda
+
++ dumpe2fs muestra mucha informacion sobre una particion 
+  dumpe2fs disco
+
++tune2fs se usa para cambiar parametros de sistema 
+
+	- para cambiar el numero de montajes entre verificaciones del sistema de 
+	  archivos
+ 	  sudo tune2fs -c 25 /dev/sda1
+ 
+	- para cambiar el intervalo de tiempo entre verificaciones
+          (interval-between-checks)
+          si no se pone sufijo lo toma como dias 
+          sudo tune2fs -i 10 /dev/sda1  
+          para que tome mese o semanas toca aplicar sufijo
+          sudo tune2fs -i 3w /dev/sda1       
+          sudo tune2fs -i 3m /dev/sda1
+        -listar el contenido del superbloque incluyendo los valores actuales
+	 de los parametros que pueden ser modificados
+	  sudo tune2fs -l /dev/sda1
+        -cambiar porcentaje bloques reservados a 10%
+          sudo tune2fs -m 10 /dev/sda1 
+
+*** Informacion del superbloque
+    +contiene informacion global acerca del sistema de archivos
+    -mount count        :se incrementa cada vez que el disco es montado satisfactoriamente
+     el valor corresponde a las veces que se ha montado desde el ultimo fcsk
+     puede ser forzado para que verifique cada 180 dias con tune2fs
+
+    -tamanio del bloque :el cual no puede se mayor a una pagina de memoria se 
+			 configura atravez de mkfs
+     
+    -bloques de grupo (blocks per group) se ve con tune2fs -l 
+
+    -cuenta de bloques disponibles (free blocks)   tune2fs
+
+    -cuenta de inodos disponibles  (free inodes)   tune2fs 
+
+    -id sistema operativo          (filesystem UUID) TUNE2FS
+
+*** mejoras del sistema de archivos ext4
+
+   + retro compatibilidad con los antecesores
+   
+   + imcrementa el maximo de un sistema de archivos a 1 exabyte desde 16tb 
+     y el tamanio maximo de un archivo a 16 tb  desde 2tb 
+   
+   + imcrementa de forma limitada el numero maximo de subdirectorios el cual 
+     estuvo limitado en 32k en ext3
+
+   + divide archivos grandes en extents los cuales mejoran el rendimiento
+
+   + utiliza asignacion multibloque lo dual es asignar todo el espacio de una vez de nvez de hacerlo de a bloque adicionalmente la asignacion demorada puede 
+     mejorar el rendimiento
+  
+   + puede preasignar espacio de disco para un archivo el espacio esta gatantizado 
+     y es contiguo
+
+   + usa allocate-on-flush tecnica por la cual se retrasa la asignacion de bloques
+     hasta que los datos son escritos en disco
+
+   + usa fcsk rapido el cual puede aumentar la velocidad de verificacion de 
+     sistemas de archivos en un orden de magnitud o mas
+  
+   + usa checksums para el journal lo cual mejora la confiabilidad esto tambn evita esperas 
+     de E/S durante el journaling lo cual mejora el rendimiento 
+
+   + timestamps mejoradas medidas en nanosegundos
+   
+   + incluye soporte de snapshots
+
+*** uso e4defrag
+
+desfragemnta discos
+
++muestra que archivos son lo que va desfragmentar pero no hace nada 
+e4defrag -c disco  
+
++desfragmenta el disco que se le pasa en el parametro
+e4defrag disco
