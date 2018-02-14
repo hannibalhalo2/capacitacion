@@ -1,0 +1,73 @@
+mdadm  --> crea y administra dispositivos de RAID
+
+**Los pasos esenciales para configurar un dispositivo de RAID de software son:
+
+    Crear las particiones en cada disco (teclee fd en fdisk)
+    Crear el dispositivo RAID con mdadm
+    Formatear el dispositivo RAID
+    Agregar el dispositivo a /etc/fstab
+    Montar el dispositivo RAID
+    Capturar detalles del RAID para asegurar la persistencia.
+
+	El comando:
+
+	$ sudo mdadm -S
+
+	se usa para detener/desactivar el RAID.
+
+**ejemplo 
+
+--crea 2 particiones
+	 	sudo fdisk /dev/sdb
+		sudo fdisk /dev/sdc
+--crea  el arreglo
+--le da nombre  --level raid1  --raid-disk va a usar 2 discos y le dice que discos
+$ sudo mdadm --create /dev/md0 --level=1 --raid-disks=2 /dev/sdbX /dev/sdcX
+
+--le fa formato al arreglo
+sudo mkfs.ext4 /dev/md0
+
+--con la salida --scan crea el mdadm.conf
+sudo bash -c "mdadm --detail --scan >> /etc/mdadm.conf"
+
+--crea punto dem montaje
+   sudo mkdir /myraid
+
+--lo monta
+	sudo mount /dev/md0 /myraid
+--agregue en el fstab paraque monte al inicio
+/dev/md0  /myraid  ext4  defaults 0 2
+
+
+***ver estado del raid
+cat /proc/mdstat
+sudo mdadm --detail /dev/md0
+
+***enviar notificaciones al mail si el raid falla
+-edite /etc/mdadm.conf
+	MAILADDR eddie@haskell.com
+
+--levante el servicio
+	 sudo systemctl start mdmonitor
+         ubuntu               mdadm  
+	y asegúrese que va a iniciar en el arranque con:
+	$ sudo systemctl enable mdmonitor
+          ubuntu               mdadm 
+***detener el RAID
+sudo mdadm -S /dev/md0
+
+***CREAR disco de reserva 
+-l level raid5
+-n 3 discos activos 
+-x 1 disco en reserva
+sudo mdadm --create /dev/md0 -l 5 -n3 -x 1 /dev/sda8 /dev/sda9 /dev/sda10 /dev/sda11
+
+ -probar disco reserva
+	sudo mdadm --fail /dev/md0 /dev/sdb2
+
+***reparando el arreglo
+	--el disco sdb2 fallo por lo cual lo removere del array
+	sudo mdadm --remove /dev/md0 /dev/sdb2
+
+	--agrego el disco bueno
+	 sudo mdadm --add /dev/md0 /dev/sde2

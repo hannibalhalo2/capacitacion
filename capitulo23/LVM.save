@@ -1,0 +1,49 @@
+para usar estas herramientas instalar lvm2
+
+*lvm es mejor que raid ya que permite redimensionar mas facil
+
+*    vgcreate:  Crea grupos de volúmenes.
+    vgextend:  Agrega volúmenes físicos a un grupo de volúmenes.
+    vgreduce:  Reduce un grupo de volúmenes.
+
+*Las herramientas que agregan o quitan particiones físicas de un grupo de volúmenes comienzan con pv e incluyen:
+
+*    pvcreate:  Convierte una partición en un volumen físico.
+    pvdisplay:  Muestra los volúmenes físicos en uso.
+    pvmove:  Mueve los datos desde un volumen físico a otro, dentro del mismo grupo de volúmenes; esto puede ser requerido si un disco o una partición va a ser eliminada por alguna razón. A continuación podría ejecutarse:
+    pvremove:  Elimina una partición desde un volumen físico.
+
+*Para obtener una lista completa de las herramientas LVM ejecute man lvm.
+
+*lvcreate: asigna volumenes logicos desde los grupos de volumenes
+
+*lvdisplay: muestra acerca de los volumenes logicos disponibles
+
+*pasos asociados a la configuracion y uso del volumen logico
+    Crear particiones en las unidades de disco (escriba 8e en fdisk) .
+    Crear volúmenes físicos desde las particiones.
+    Crear el grupo de volúmenes.
+    Asignar volúmenes lógicos desde el grupo de volúmenes.
+    Montar los volúmenes lógicos (y actualizar /etc/fstab según sea necesario).
+
+*comandos utilizados para crear y utilizar volumenes logicos
+
+-despues de crear la particion /sbd1 /sdc1
+	
+	convierte particion en volumen fisico
+	$ sudo pvcreate /dev/sdb1  
+	$ sudo pvcreate /dev/sdc1
+	
+	crea un grupo de volumenes de 16m en /sdb1
+	$ sudo vgcreate -s 16M vg /dev/sdb1
+
+	agrega sdc1 a el grupo de volumens vg
+	$ sudo vgextend vg /dev/sdc1
+
+sudo lvcreate -L 50G -n mylvm vg
+
+$ sudo mkfs -t ext4 /dev/vg/mylvm
+
+$ mkdir /mylvm
+
+$ sudo mount /dev/vg/mylvm /mylvm

@@ -17,13 +17,28 @@ despues pide la clave con la cual se podra acceder al dispositivo
 -usar cifrado custom
 sudo crypsetup luksformat --cypher aes /dev/sda
 
--abrir volumen cifrado
+*** pasos para crear y utilizar particion cifrada
+
+-cree la particion la cual desea cifrar
+
+
+-dando formato con cryptsetup abrir volumen cifrado
+sudo crypsetup luksformat --cypher aes /dev/sda
+
+
+-luego le pedira ingresar la contrasenia luego de eso es posible formatear
+
+-la hacemos disponible para formatearla
 sudo crypsetup --verbose luksopen /dev/sda
 
 -formatea el sistema de archivos 
 mkfs.ext4 /dev/sda
 
--desmontar disco
+-monta la particion
+sudo mount /dev/sda /mnt
+
+-desde este momento la particion ya esta cifrada cuando termne de usarla solo desmontela
+desmontar disco
 sudo umount /mnt
 
 -cierra la particion cifrada
@@ -40,3 +55,33 @@ SECRET /dev/mapper/MYSECRET
 -crea contrasenia para dispositivo
 -monta el sistema de archivos de bloque
 -darle formato con un flie system standard ext4
+
++cifrar swap
+-vea que particion es la swap
+cat /proc/swaps
+-apaguela
+sudo swapoff /dev/sda7
+-cifra y abre la particion
+cifra    sudo cryptsetup luksFormat /dev/sda7
+abre     sudo cryptsetup luksOpen /dev/sda7
+-formatee
+mkswap /dev/sda7
+-active la particion
+swapon /dev/sda7
+-verifique que esta arriba
+cat /proc/swaps
+- agregue la swap cifrada al inicio
+	edite /etc/crypttab
+	swapcrypt /dev/sda11 /dev/urandom swap,cipher=aes-cbc-essiv:sha256,size=256
+	use /dev/urandom en vez de random
+
+	edite /etc/fstab
+	/dev/sda7 none swap defaults 0 0
+-reinicie
+
++restaurar la configuracion
+$ sudo swapoff /dev/mapper/swapcrypt
+$ sudo cyyptsetup luksClose swapcrypt
+$ sudo mkswap /dev/sda11
+$ sudo swapon -a
+

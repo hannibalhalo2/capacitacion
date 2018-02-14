@@ -1,0 +1,121 @@
+    vgcreate:  Crea grupos de volúmenes.
+    vgextend:  Agrega volúmenes físicos a un grupo de volúmenes.
+    vgreduce:  Reduce un grupo de volúmenes.
+
+Las herramientas que agregan o quitan particiones físicas de un grupo de volúmenes comienzan con pv e incluyen:
+
+    pvcreate:  Convierte una partición en un volumen físico.
+    pvdisplay:  Muestra los volúmenes físicos en uso.
+    pvmove:  Mueve los datos desde un volumen físico a otro, dentro del mismo grupo de volúmenes; esto puede ser requerido si un disco o una partición va a ser eliminada por alguna razón. A continuación podría ejecutarse:
+    pvremove:  Elimina una partición desde un volumen físico.
+
+Para obtener una lista completa de las herramientas LVM ejecute man lvm.
+
+-lvcreate asigna volúmenes lógicos desde los grupos de volúmenes. El tamaño puede especificarse ya sea en bytes 
+ o número de extents (recuerde que son de 4 MB por defecto). Los nombres son a elección.
+
+-lvdisplay informa acerca de los volúmenes lógicos disponibles.
+
+-lvremove elimina volumen logico
+Si se comienza con un grupo de volúmenes nuevo, los pasos asociados a la configuración y uso de un volumen lógico nuevo son los siguientes:
+
+    Crear particiones en las unidades de disco (escriba 8e en fdisk) .
+    Crear volúmenes físicos desde las particiones.
+    Crear el grupo de volúmenes.
+    Asignar volúmenes lógicos desde el grupo de volúmenes.
+    Montar los volúmenes lógicos (y actualizar /etc/fstab según sea necesario).
+
+*pasos para desde 2 parciciones crear un volumen logico
+	
+	CONVIERTE sdb1 y sdc1 en  volumenes fisico 
+	$ sudo pvcreate /dev/sdb1
+	$ sudo pvcreate /dev/sdc1
+        
+	revisa que las creo
+	pvdisplay
+	
+	crea grupos de volumen llamado vg le asigan 16mb y le agrega sdb1
+	$ sudo vgcreate -s 16M vg /dev/sdb1
+
+	revisa el volumen logico
+	vgdisplay
+	
+	agrega sdc1 a el grupo de volumenes vg
+	$ sudo vgextend vg /dev/sdc1
+	
+	crea el volumen logico le asigna 50gb y le pone el nombre mylvm a le grupo de volumenes vg
+	$ sudo lvcreate -L 50G -n mylvm vg
+
+	Le da formato ext4 a mylvm
+	$ sudo mkfs -t ext4 /dev/vg/mylvm
+
+	CREA el directorio mylvm
+	$ mkdir /mylvm
+
+        monta su volumen en la carpeta que acabo de crear
+	$ sudo mount /dev/vg/mylvm /mylvm
+
+	agregue la siguiente linea al fstab 
+        /dev/vg/mylvm /mylvm ext4 defaults 0 0
+
+a /etc/fstab para que el punto de montaje sea persistente.
+
+*pvdisplay muestra volumenes fisicos
+ pvdisplay /dev/sda5
+
+*vgdisplay muestra los grupos de volumenes
+vgdisplay /dev/vg0	
+
+*lvdisplay muestra los volumenes logicos
+lvdisplay /dev/vg0/lvm1
+
+*cambiar tamanio filesystem
+resize2fs
+
+* extender volumen logico con un sistema archivos ext4
+agranda mylvm en 500mb
+$ sudo lvextend -L +500M /dev/vg/mylvm
+ajusta el tamanio de el filesistem en mylvm
+$ sudo resize2fs /dev/vg/mylvm
+
+*reducir el sistema de archivos
+	$ sudo umount /mylvm
+
+	checkea el volumen
+	$ sudo fsck -f /dev/vg/mylvm
+
+	asigna 200m ael filesystem	
+	$ sudo resize2fs /dev/vg/mylvm 200M
+
+	reduce el sistema de archivos en el lvm
+	$ sudo lvreduce  -L 200M /dev/vg/mylvm
+
+	monta el volumen
+	$ sudo mount /dev/vg/mylvm
+
+*agrandar y reducir en pasos mas sencillos
+
+	$ sudo lvextend -r -L +100M /dev/vg/mylvm
+
+	$ sudo lvreduce -r -L -100M /dev/vg/mylvm
+
+*reducir grupo de volumenes
+pvmove: Move extents from one physical volume to another
+$ sudo pvmove /dev/sdc1
+
+$ sudo vgreduce vg /dev/sdc1
+
+*CREAR SNAPSHOTS
+              -l extents -s por snapshot -n nombre dispositivo
+		sudo lvcreate -l 128 -s -n mysnap /dev/vg/mylvm
+
+-despues de creada montela
+		$ mkdir /mysnap
+		$ mount -o ro /dev/vg/mysnap /mysnap
+
+-despues de usada desmontela
+	$ sudo umount /mysnap
+	$ sudo lvremove /dev/vg/mysnap
+
+
+** los volumenes fisicos estan agrupados en grupos de volumenes los cuales se dividen en volumenes logicos

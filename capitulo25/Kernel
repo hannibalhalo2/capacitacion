@@ -1,0 +1,18 @@
+**ver valores actualesde la kernel
+	sysctl -a
+
+**cambiar valores a variabledel kernel
+sudo sysctl net.ipv4.ip_forward=1
+siempre despues de la primera palabra de la variable va . (despues de net1)
+
+
+**archivo de configuracion de variables
+/etc/sysctl.conf
+-para aplicar cambio en ese archivo 
+sudo sysctl -p
+
+**variable pid maximo
+cat /proc/sys/kernel/pid_max
+
+sysctl kernel.pid_max=30000
+

@@ -1,0 +1,7 @@
+herramientas utilizadas
+
+xfsdump
+xfsrestore
+xfs-freeze permite realizar snapshots
+man -k xfs
+man -k btrfs
