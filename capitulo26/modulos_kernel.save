@@ -1,0 +1,41 @@
+que es 
+están diseñadas como parte integral del kernel cuando éste se carga inicialmente, o para ser agregadas (o removidas
+
+-manejo modulos
+
+Hay una serie de herramientas que se utilizan con los módulos del kernel:
+
+    lsmod: Lista los módulos cargados.
+    insmod: Carga módulos directamente.
+    rmmod: Remueve módulos directamente.
+    modprobe: Carga o descarga módulos, utilizando una base de datos preconstruida de los módulos con información de sus dependencias.
+    depmod: Reconstruye la base de datos de dependencia de módulos; es requerida por modprobe y modinfo.
+    modinfo: Proporciona información acerca de un módulo.
+
+
+-Directorio modulos
+ /lib/modules/<kernel-version>. su extencion siempre es .ko
+
+-----cargar modulo
+  	sudo insmod /lib/modules/3.16.0-4-amd64/kernel/fs/fat/fat.ko
+     -con parametros
+	sudo /sbin/insmod <pathto>/e1000e.ko debug=2 copybreak=256
+
+-listar modulos
+ lsmod
+
+-sudo rmmod no debe estar en uso por el ni por otros
+ sudo rmmod fat
+
+-sudo modprobe carga y descarga modulos con sus dependencias 
+ sudo modprobe fat    
+  -subir modulo con parametros
+     modprobe e1000e debug=2 copybreak=256
+-remover modulo con modprobe
+      modprobe -r fatO  (descarga)
+
+-sudo modinfo trae info de un modulo este cargado o no
+ mod info fat
+
+--errores quedan en dmesg
+

@@ -1,0 +1,30 @@
+**Si las aplicaciones que se ejecutan se escribieron esperando un entorno de sistema operativo completo 
+con una amplia gama de servicios y otras bibliotecas y aplicaciones, las máquinas virtuales pueden ser las mejores.
+
+**docker 
+virtualiza a nivel de aplicacion 
+contiene la aplicacion y toda dependencia necesaria para que esa aplicacion se ejecute
+
+ -uso sencillo de docker
+ iniciar una aplicación contenedor Docker puede incluir solo unos pocos pasos:
+
+    Instala el paquete de servicio Docker con tu herramienta favorita
+
+    Comience el servicio Docker​
+
+    ​Busque una imagen adecuada de Docker Hub o su repositorio privado
+
+    Tire de la imagen​ ​
+
+    ​Ejecuta la imagen​ 
+
+    Y finalmente, prueba la aplicación.
+
+-comandos docker
+	docker search    	--> busca un contenedor con la palabra clave que se le pase 
+	docker pull      	--> descarga la imagen que se le pase como parametro
+	docker images --all   	--> lista las imagenes disponibles
+	docker run 		--> levanta el contenedor que le de como parametro
+	docker ps		--> lista imagenes en ejecuccion
+	docker stop 		--> detiene la ejecucion 
+	docker rmi		--> borrar imagen 

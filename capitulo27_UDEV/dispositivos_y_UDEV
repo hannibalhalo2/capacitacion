@@ -62,3 +62,6 @@ el inicio como despues una vez son conectados al sistema
   sintaxis
   <match> <op> value [,...] <assignement><op> value  [,...]
   SUBSYSTEM=="usb" , SYMLINK+="myusb"
+
+-- monitoreo logs en tiempo real 
+   dmesg-w

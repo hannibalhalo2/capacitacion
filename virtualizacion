@@ -1,0 +1,65 @@
+emulador vd virtualizacion
+
+el emulador es un programa que corre sobre el host wine qemu se p[ierde rendiemiento mientras que la virtualizacion
+no tiene esa desventaja al hacerse atravez e un hipervisdor
+
+--verificar si cpu admite virtualizacion
+  /proc/cpuinfo
+ busque svm en el campo flags si posee un amd 
+
+--tipos de hipervisor
+externo al kernel     vmware virtualbox
+interno al kernel     kvm
+
+
+---vmware ESXi es un ejemplo de un hipervisor incrustado en el sistemaoperativo
+
+--kvm utiliza el kernel como hipervisor
+
+--libvirt  es EL CONJUNTO DE HERRAMIENTAS PARA VIRTUALIZACION
+
+--qemu
+emulador lento que posee la habilidad de emular aplicaciones como SO completos 
+
+****kvm 
+	ofrece integracion ajustada con qemu cunado el host e invitado compraten arquitectura
+
+	-instalacion
+ 	apt-get install qemu-kvm 
+
+
+--xen
+nativo de linux ofrece virtualizacion de hardware
+
+--virtualbox
+
+**COMANDOS QEMU-IMG
+
+	--formatos soportados
+		qemu-img --help | grep formats
+
+	--conversion de formatos
+	-O output format
+	convierte de qcow2 a vmware
+		qemu-img convert -O vmdk myvm.qcow2 myvm.vmdk
+
+
+	--crear imagen 
+	-f formato
+	al final le puso el peso
+	sudo qemu-img create -f qcow2 /var/lib/libvirtd/myimg.qcow2 24M
+
+	--agrega la iso para que la monte en el contenedor de el paso anterior y le da un dipositivo usb
+	sudo qemu-system-x86_64 -hda /var/lib/libvirtd/myimg.qcow2  \ 
+	-cdrom /teaching/LFCW/RESOURCES/LFS301/CorePlus-current.iso \
+	-usbdevice tablet
+
+--virtmanager 
+
+-agregue el usuario a el grupo kvm libvirt
+-cargue los modulos kvm y kvm-amd con el usuario que agrego en el paso 1 y esta ejecutando virt-manager
+ debido a que este pc es un amd
+ 	modprobe kvm
+	modprobe kvm-amd
+	lsmod | grep kvm_amd
+

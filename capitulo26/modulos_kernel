@@ -12,6 +12,10 @@ Hay una serie de herramientas que se utilizan con los módulos del kernel:
     depmod: Reconstruye la base de datos de dependencia de módulos; es requerida por modprobe y modinfo.
     modinfo: Proporciona información acerca de un módulo.
 
+
+-Directorio modulos
+ /lib/modules/<kernel-version>.
+
 -cargar modulo
  sudo insmod /lib/modules/3.16.0-4-amd64/kernel/fs/fat/fat.ko
 
