@@ -1,0 +1,95 @@
+--useradd sin paramertros
+	en este caso asignara grupo automatico y demas parametrso automaticamente
+	sudo useradd notfound
+ 	
+	-s shell
+	-m creele un home
+	-k que skeleton para la carpeta home usara solo funciona is -m se uso anteriormente
+	-c commentary o GECOS
+	sudo useradd -s /bin/csh -m -k /etc/skel -c "Bullwinkle J Moose" bmoose
+
+--USERDEL
+	elimina cuentas 
+	
+	-sin parametros borra la cuenta pero permanece la carpeta en /home
+	sudo userdel bmoose
+
+	-r borra la /home del usuario
+	-f borra si aunque este logeado
+	sudo userdel -r bmoose
+
+--USERMOD
+	aplica diversos cambios a una cuenta de usuario 
+
+	-L bloquea cuenta
+	usermod -L bmoose
+	
+	--otra forma de bloquear una cueta es con chage aplicando una fecha del pasado
+	  tambn se puede con usermod -e
+	chage -E 2017-09-11 bmoose
+
+--la cuentas conm uid menor de 1000 son de sistema
+
+--passwd cambia password solo root puede coambiar cualquier password de lo contrario solo puede cambiar el de su
+  usuario
+
+	passwd -l user bloquea la cuenta
+
+--FICHEROS IMPORTANTES
+
+	-/etc/passwd   --> registra todos los usuarios del sistema , permisos , home, /bin/bash
+	-/etc/shadow   --> contrasenias , usuarios , caducidad ,validez ,cuenta
+
+--VIPW
+
+	comando para editar aspectos de la cuenta en /etc/shadow sin preocuparce por corrupcion de informacion
+	
+	- si deseo bloquear cuenta usando /sbin/nologin debo usar vipw ya que este edita /etc/paswd
+	- si deseo bloquear la cuenta alterando su password por !! debo usar vipw -s ya que este edita el /etc/shadow	
+
+	-s shadow permite editar el archivo en nano 
+	sudo vipw -s
+	sin opciones edita /etc/passwd
+	sudo vipw  
+
+--CHAGE
+gestiona timeposde caducidad de cuentas
+	-l lista los atributos de caducidad de nombre parametro unico parametro de chage que pueden usar los usuarios
+	-m minimo dias 
+	-M maximo dias 
+	-E fecha expiracion
+	-d ultimo dia que fue cambiado el ppasword
+	chage -l bmoos
+	chage -m 14 -M 30 user
+	chage -E 2017-4-1 USER
+	CHAGE -D 0 BMOOSE
+
+--BASH RESTRINGIDA
+
+	/bin/rbash
+	bash -r  -->  para todas las opciones en el man de bash esta en RESTRICTED SHELL
+	es una shel que opera en una mabiente controlado 
+        
+
+--CUENTA RESTRINGIDA 
+
+	--asignele rbash con usermod al usuario que desa restringir
+		sudo usermod -s /bin/rbash user
+	-usa shell restringida
+	-limites en binarios
+	-limite en tiempos de acceso
+	-limite en los directorios que puede acceder
+--ssh
+     	ssh -l user ip o maquina
+	
+	-archivos configuracion
+	/home/user/.ssh
+
+--scp   
+	scp file user@ip o maquina:directorio destino
+
+--binario para escritorio remoto
+
+	sudo apt-get install tigervnc tigervnc-server
+	vncserver
+	vncviewer localhost:2

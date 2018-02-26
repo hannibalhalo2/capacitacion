@@ -1,0 +1,74 @@
+++firewalld
+	--archivos configuracion /etc/firewalld
+				/usr/lib/firewalld
+	los cambios en /etc/firewalld son los qwue persisten
+
+++firewall-cmd
+	--remplazo de iptables
+	--firewall-cmd --state
+
+	--Obtener la zona por defecto:
+
+	$ sudo firewall-cmd --get-default-zone
+	public 
+
+	--Obtener una lista de las zonas actualmente en uso:
+	$ sudo firewall-cmd --get-active-zones
+	public
+  	interfaces: eno16777736 
+
+	--Listar todas las zonas disponibles:
+	$ sudo firewall-cmd --get-zones
+	block dmz drop external home internal public trusted work 
+
+	--Para cambiar la zona por defecto a trusted y luego volver atrás:
+	$ sudo firewall-cmd --set-default-zone=home
+	success
+	$ sudo firewall-cmd --set-default-zone=public
+	success 
+
+	--Para asignar temporalmente una interfaz a una zona en particular:
+	$ sudo firewall-cmd --zone=internal --change-interface=eno1
+	success 
+
+	--Para hacerlo permanentemente:
+	$ sudo firewall-cmd --permanent --zone=internal --change-interface=eno1
+	lo cual crea el archivo /etc/firewalld/zones/internal.xml. 
+
+	--Para determinar la zona asociada con una interfaz en particular:
+	$ sudo firewall-cmd --get-zone-of-interface=eno1
+ 
+	--Finalmente, para obtener todos los detalles acerca de una zona en particular:
+	$ sudo firewall-cmd --zone=public --list-all
+
+	--agregar fuente a la zona trusted
+	$ sudo firewall-cmd --permanent --zone=trusted --add-source=192.168.1.0/24
+	para remover --remove-source
+	para modificar --change-source
+	
+	--listar fuentes asociadas a una zona
+	sudo firewall-cmd --permanent --zone=trusted --list-sources
+
+	--ver servicios disponibles
+	firewall-cmd --get-service
+	
+	--ver servicios en zona en particular
+	firewall-cmd --list-services --zone=public
+
+	--aniadir puerto
+	sudo firewall-cmd --zone=home --add-port=21/tcp 
+
+	--listar puertos para la zona parametro
+	sudo firewall-cmd --zone=home --list-ports
+
+	--volver atras si el cambio no es permanente
+	firewall-cmd --reload
+++firewalld
+	--demonio de firewall
+	--systemctl star | enable | disable | stop | status firewalld
+
+
+++cuando se tienen varias interfaces de red hay que habilitar ip-forwading 
+	--/etc/sysctl.conf
+	  net.ipv4.ip_forward=1
+	  sudo sysctl -p

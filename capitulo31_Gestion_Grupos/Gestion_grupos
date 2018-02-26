@@ -1,0 +1,40 @@
+--/etc/group
+
+	contiene toda la informacion acerca de los grupos en el sistema
+	nombre
+	password --> solo funciona si se ha configurado gshadow
+	gid
+	usuarios
+
+--Los grupos y sus miembros pueden ser gestionados y mantenidos con:
+
+    groupadd:  Agrega un grupo.
+    groupdel:  Elimina un grupo.
+    groupmod:  Modifica las propiedades del grupo.
+    usermod:  Modifica la pertenencia a grupos de un usuario (agrega o elimina).
+
+--ejemplos
+	$ sudo groupadd -r -g 215 staff
+
+	$ sudo groupmod -g 101 blah
+
+	sudo groupmod -G GRUPO1,GRUPO2 --> este comando no agrega los nuevos grupo sobreescribe asegurese de 
+				           poner los grupos anteriores y los nuevos
+
+	$ sudo groupdel newgroup
+
+	$ sudo usermod -G student,group1,group2 student
+
+--grupos privados 
+	cada usuario creado sin parametro de grupo se agrega a un grupo son us mismo nombre
+
+-- un usuario puede pertenecer de 0 a 15 grupos secundarios
+
+--el grupoo primario es el que se le asigna a todo lo que crea el usuario
+
+--comado groups
+	groups		--> muestra que grupos pertence el usario actual
+	groups user   	--> muestra a que grupos pertence el usuario
+
+--comando chgrp
+	chgrp 		-->cambia el grupo de archivos mismo comportamiento de chown

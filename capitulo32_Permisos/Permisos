@@ -1,0 +1,60 @@
+-- setuid  	
+	--> asigna permisos al que use el fichero del creador del fichero 
+	ej el binario x tiene este permiso asignado cuando user1 lo correra como root
+
+-- setgid		
+	--> lo mismo de arriba pero con el grupo del binario o fichero
+
+-- chmod
+	--> cambia permisos 
+	ej
+	chmod uo+x,g-w a_file
+	chmod 755 file
+	$ chmod u=r,g=w,o=x afile
+	$ chmod u=+w,g=-w,o=+rw afile
+	$ chmod ug=rwx,o=-rw afile
+
+-- chown 
+	--> cambia propietario y grupo de un grupo o archivo
+	chown coop a_file
+	chown coop:aproject a_file
+	-- -R 	recursivo
+	chown -R coop:aproject subdir
+
+-- chgrp
+	-- solo cambia grupo propietario fichero o directorio
+	chgrp groupx file
+
+-- umask
+	-- determina que permisos debn ser denegados por default
+	   al crear un fichero queda con 666 pero debido al umas se le resta el valor configurado en umask
+	   y ese es el numero de permiso con el que quedara 
+	ej
+	umask  == 0022
+	permisos por defaul fichero 666
+	666 - 0022 == --> permiso total  644
+	
+	--configurar umask de forma mas sencilla
+	umask -S 	Devuelve la mascara actual en letras
+	
+	asigno los permisos al umask
+	umask u=r,g=w,orw
+		
+
+-- ACLS
+
+	devuelve que acl tiene configurada el parametro
+	getfacl file|firectory
+
+	asigna permisos 
+	setfacl option permisison file
+
+	-m modifica 
+	setfacl -m u:isabelle:rx /home/stephane/file1
+
+	-x elimina quita todos los permisos que se le hayan dado si quiere ser mas selectivo quita todos
+	   y los reagrega con la opcion de arriba
+	setfacl -x u:isabelle    /home/stephane/file
+
+	-d asigna el valor predeterminado del directorio
+	setfacl -m d:u:isabelle:rx somedir

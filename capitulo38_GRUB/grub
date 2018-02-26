@@ -12,7 +12,9 @@
 
 *en grub1(hd0 (ide)) las particiones inician en 0 en en grub2 en 1 (sda1 (sata))
 
-*archivo configuracion /etc/default/grub
+*archivo configuracion modificable 
+/etc/default/grub
+/etc/grub.d
 
 *GRUB grand unified boot loader
 
@@ -21,7 +23,7 @@
  - puedo escojer kernels alternativos y ramdisk para el SO que escoja
  - puedo cambiar parametros de arranque sin tener que editar archivos de configuracion
 
-+archivo de configuracion grub2
++archivo de configuracion grub2 (autogeneradow)
  /boot/grub/grub.cfg
 
 +archivo de configuracion grub1
@@ -31,10 +33,16 @@
 
 * despues de superar las etapas BIOS , POST grub se ejecuta y muestra un menu
 
-+alseleccionar una entrada y presionar e tendra acceso a una shell interactiva donde puede modificar la liena de coman$
-single al final de la linea para inicior por una session monousuario
++alseleccionar una entrada y presionar e tendra acceso a una shell interactiva donde puede modificar la linea de 
+comando
+single al final de la linea para iniciar por una session monousuario
 
 +instalacion Grub
  - instalar los archivos de GRUB en /boot/grub o /boot/group2 los archivos
    vmlinuz-* initramfs-*
 
+ -sudo grub-install /dev/sda
+
++iniciar en modo no grafico 
+en grub presione e sobre la opcion y en la linea del kernel la reconoce por que empieza con linux como etiqueta
+y termina la linea con quiet o ro agregue la palabra text

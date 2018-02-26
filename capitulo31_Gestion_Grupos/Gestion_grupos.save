@@ -1,0 +1,21 @@
+-- archivo donde se registran los grupos posee la misma data que posee /etc/passwd pero sobre los grupos 
+	/etc/group
+	groupname
+	gid	
+	usuarios en el grupo
+
+-- es posible configurar clave para los grupos solo si existe gshadow
+
+--Los grupos y sus miembros pueden ser gestionados y mantenidos con:
+
+    groupadd:  Agrega un grupo.
+    groupdel:  Elimina un grupo.
+    groupmod:  Modifica las propiedades del grupo.
+    usermod:  Modifica la pertenencia a grupos de un usuario (agrega o elimina).
+
+--VIGR 
+	permite editar /etc/group sin tener miedo de corromper el archvio
+
+--ejemplo
+                                              │h4nn1b4l@h4nn1b4l-Console:~/images$ man vigr
+                                                                           

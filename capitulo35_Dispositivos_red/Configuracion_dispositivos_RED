@@ -1,0 +1,125 @@
+-- ip3
+
+evolucion de ifconfig
+
+ip [ OPTIONS ] OBJECT { COMMAND | help }
+
+OBJECT -->      1puede ser 
+address		Dirección del dispositivo de protocolo IPv4 o IPv6
+link            Dispositivos de red
+maddress	Dirección Multicast
+monitor		Monitorear mensajes netlink
+route		Entrada de la tabla de enrutamiento
+rule		Regla en la base de datos de políticas de enrutamiento
+tunnel		Túnel sobre IP
+
++ ayuda sudo ip OBJECT help
+	despliega ayuda sobre ese objeto
+	man ip OBJECT
+
+--ejemplos
+
+-muestra info todas las interfaces
+	ip link 
+
+-muestra info de una interfaz en particular
+	ip -s link show ens33      
+
+-configura ip para ens33
+	sudo ip addr add 192.168.1.58 dev ens33
+
+-desactiva interfaz
+	sudo ip link set ens33 down
+
+- configurar MTU  en 1480 bytes en en ens33
+	sudo ip link set ens33 mtu 1480
+
+- configurar ruta de red 
+ 	sudo ip route add 172.16.1.0/24 via 192.168.1.5
+
+
++++IFCONFIG
+	
+-Muestra info de todas las interfaces
+	ifconfig
+
+-muestra info solo de eth0
+	ifconfig eth0
+
+-configura ip para eth0
+	sudo ifconfig eth0 192.168.1.50
+
+-Configurar la máscara de red a 24 bits:
+	 sudo ifconfig eth0 netmask 255.255.255.0
+
+-Activar la interfaz eth0:
+	 sudo ifconfig eth0 up
+
+-Desactivar la interfaz eth0:
+	 sudo ifconfig eth0 down
+
+-configurar MTU para eth0 en 1480
+	sudo ifconfig eth0 mtu 1480
+
++++ archivo configuracion
+	/etc/network/interfaces
+
++++ nmtui 
+interfaz grafica para editar conexiones 
+activar conexiones
+asignar hostname
+
++++ nmcli
+linea de comandos de network manager
+nmcli --help
+
++++ route
+muestra enrutamiento de la red 
+	-- route -n
+	-- ip route
+
+	-- configure gateway == ruta por defecto
+	         -desde  nmcli sudo nmcli con mod virbr0 ipv4.routes 192.168.10.0/24 \
+                                        +ipv4.gateway 192.168.122.0
+					sudo nmcli con up virbr0
+
+	--configure gateway desde el archivo /etc/network/interfaces
+	add line  gateway=x.x.x.x
+
+	-- configure gateway desde route
+	sudo route add default gw 192.168.1.10 enp2s0
+	revertir cambios
+	sudo route add default gw 192.168.1.1 enp2s0
+
++++ rutas estaticas
+	-- configurando desde comando ip
+		sudo ip route add 10.5.0.0/16 via 192.168.1.100
+		-- probando con route
+		route
+
+	--  desde archivo /etc/network/interface
+		iface eth1 inet dhcp
+    		post-up route add -host 10.1.2.51 eth1
+    		post-up route add -host 10.1.2.52 eth1
+
++++  dns
+	--devuelve informacion acerca de host 
+	dig google.com
+	host
+	nslookup
+	
+	--asignar servidor dns desde /etc/resolv.conf
+	agregue la linea con la ip y listo
+
++++ traceroute
+	--muestra la ruta para llegar al destino
+	traceroute www.google.com
+
++++ mtr 
+	--misma funcion que traceroute pero la salida es como top 
+	mtr google.com
+
+
+
+
+

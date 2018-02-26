@@ -1,0 +1,4 @@
+--cambiar el hostname de forma persistente 
+
+edite /etc/hostname
+sudo hostnamectl set-hostname MYPC
