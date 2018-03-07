@@ -6,6 +6,10 @@
 -- setgid		
 	--> lo mismo de arriba pero con el grupo del binario o fichero
 	chmod g+s somefile
+
+-- crear directorio compartido
+	chmod g+s somedir
+
 -- chmod
 	--> cambia permisos 
 	ej

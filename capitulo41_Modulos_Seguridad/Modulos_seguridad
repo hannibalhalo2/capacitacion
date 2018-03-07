@@ -1,0 +1,87 @@
++alternativas a LSM LINUX SECURITY MODULES
+
+SOLO SE PUEDE USAR 1 A LA VEZ
+
+-SELinux
+-AppArmor
+-Smack
+-TOMOYO
+
+
+++SELinux
+
+-modos
+	enforcing  -->  cerrado 
+	permisive  -->   abierto pero guarda logs cuando toca algo que debia estar cerrado
+	disabled   -->   apagado
+
+-archivos de configuracion
+	/etc/selinux/config
+	/etc/sysconfig/selinux
+
+-muestra la politica actual
+	sestatus
+
+-examinar o configurar modo actual
+	getenforce
+
+-cambiar de modo enforce a permissive de esta forma no se puede pasar al modo disabled
+	setenforce Permissive
+
+-desabilitar selinux (no se recomienda desabilitar en sistemas donde sera reactivado ya que reetiqwuetara todo el 
+			filesystem)
+	archivos de configuracion en la etiqueta SELINUX=DISABLED
+	parametro en el kernel agregue selinux=0 a la lista de parametros cuando reinicie
+
+-politicas
+	targeted   RESTRINGIDA A PROCESOS ESPECIFICOS
+	minimum    SOLO PROCESOS SELECCIONADOS ESTAN PREOTEGIDOS
+	MLS        SEGURIDAD A MULTIPLES NIVELES 
+
+-contextos
+	user
+	role
+	type   --> etiqueta terminado en _t como en kernel_t
+	level
+
+-herramientas extendidas  para soportar selinux
+	ps axZ
+	ls -Z
+	cp
+	mv
+	mkdir
+
+-restorecoon
+	restablece los permisos dependiendo del contexto padre actual sirve para el momento en que se 
+	mueven archivos de un lugar a otro
+	restorecon -Rv /home/peter
+
+-semanage fcontext
+	cambia contexto por defecto de archivos nuevos 
+	semanage fcontext -a -t httpd_sys_content_t /virtualHosts
+	
+	listar booleanos de la politica actual
+	semanage boolean -1
+	
+-getsebool y setsebool
+	trae toads las opciones para servistas de una forma mas comoda
+	getsebool -a
+	getsebool ssh_chroot_rw_homedirs
+
+	asigna cambion en las opciones al cambiar el booleano los cambios no son persistentes a menos que 
+	agregue la opccion -P
+	sudo setsebool ssh_chroot_rw_homedirs on
+	setsebool -P
+
+-audit2allow
+	genera reglas de politicas de selinux desde registros de operaciones denegadas
+
+-audit2why
+	traduce mensajes de auditorias en descripciones de por que le mensaje fue denegado 
+
+++APPARMOR
+	-servicio
+	systemctl start stop status apparmor
+
+	-directorio perfiles apparmor
+	/etc/apparmor.d

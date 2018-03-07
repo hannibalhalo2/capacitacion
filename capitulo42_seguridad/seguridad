@@ -1,0 +1,25 @@
+--password en bios 
+
+	-grub1
+	ejecute grub-md5-crypt
+	edite /boot/grub/grub.conf
+	agregue esta linea al final
+	password --md5 $1$Wnvo.1$qz781HRVG4jUnJXmdSCZ30
+
+	-grub2
+	edite /etc/grub.d
+
+--opciones mount
+	nodev   --> no caracteres especiales
+	nosuid	--> los bits set-user-identifier y set-group-identifier no tienen efecto. 
+	noexec	--> restringe la ejecucion de binarios
+	ro	--> readonly
+	
+	ejemplo
+	mount -o ro,noexec,nodev /dev/sda2 /mymountpt
+
+	en fstab
+	/dev/sda2 /mymountpt  ext4 ro,noexec,nodev 0 0
+
+--setuid (capitulo32)
+	

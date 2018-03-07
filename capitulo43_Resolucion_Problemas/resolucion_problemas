@@ -1,0 +1,39 @@
++Problemas comunes red
+
+--configuracion ip
+	revise ifconfig      
+        ip
+
+--controlador dispositivo de red 
+	lsmod
+
+--conectividad 
+	ping
+	traceroute
+	mtr
+
+--ruta por defecto                      
+	route-n
+
+--hostname
+	dig
+	hostname
+	verifique si el dn funciona correctamente
+
++Problemas comunes  sitema de archivos 
+
+--verifica un paquete
+	rpm -V some_package
+
+--verifica    todos los paquetes 
+	rpm -Va
+
+--verifica paquete de acuero al checksum
+	debsums options some_package
+
+--detecta intrusiones 
+	sudo aide --check
+
++ raiz se monto en solo lectura
+	revise con  fcsk que no contenga errores
+	sudo mount -o remount,rw /

@@ -1,0 +1,113 @@
+++cpio
+copia particiones completas o conjuntos de archivo de un lugar a otro
+    
+	--Crear un archivo:  use -o o --create:
+		$ ls | cpio --create -O /dev/st0
+	example coipa de /usr/include
+		sudo ls | cpio -c -o > /home/h4nn1b4l/lab.cpio
+
+
+    	--Extraer un archivo:  use -i o --extract:
+		$ cpio -i somefile -I /dev/st0
+
+    	--Listar el contenido de un archivo:  use -t o --list:
+		$ cpio -t -I /dev/st0
+		
+		lista el contenido de un archivo comprimido
+		cpio -ivt < include.cpio
+
+++tar
+comprime y descomprime data
+	tar nombrelocalizacion.tar loquequiero comprimir 
+
+	--Crear un archivo usando -c o --create:
+	$ tar --create --file /dev/st0 /root
+	$ tar -cvf /dev/st0 /root
+
+	--Verifique los archivos con la opción comparar, usando -d o --compare:
+	$ tar --compare --verbose --file /dev/st0
+	$ tar -dvf /dev/st0
+
+
+	--extraer 
+	$tar --extract --same-permissions --verbose --file /dev/st0
+	$tar -xpvf /dev/st0
+	$tar xpvf /dev/st0
+
+        --Especificar algunos archivos para restaurar:
+        $tar xvf /dev/st0 somefile
+        
+	--Listar el contenido de un respaldo tar:
+	$tar --list --file /dev/st0
+        $tar -tf /dev/st0 
+
+	--crear tar incremental
+	$ tar --create --newer '2011-12-1' -vf backup1.tar /var/tmp
+	$ tar --create --after-date '2011-12-1' -vzf backup1.tar /var/tmp
+
+	--comprimir descomprimir  a otros formatos
+	$ tar zcvf source.tar.gz  source
+	$ tar zxvf source.tar.gz  source
+	
+	$ tar jcvf source.tar.bz2 source
+	$ tar jxvf source.tar.bz2 source 
+	
+	$ tar Jcvf source.tar.xz  source
+	$ tar Jxvf source.tar.xz  source 
+
+
+++dd
+copia datos y particiones
+	$ dd if=input-file of=output-file options
+	$ dd --help
+
+    --Crear un archivo de 10 MB lleno con ceros:
+	$ dd if=/dev/zero of=outfile  bs=1M count=10
+    
+	--Hacer una copia de seguridad de un disco duro completo a otro (datos en bruto):
+	$ dd if=/dev/sda of=/dev/sdb
+    
+	--Crear una imagen de un disco duro (la cual podría transferirse a otro disco más tarde):
+	$ dd if=/dev/sda of=sdadisk.img
+    
+	--Respaldar una partición:
+	$ dd if=/dev/sda1 of=partition1.img
+    
+	--Usar dd en una tubería:
+	$ dd if=ndata conv=swab count=1024 | uniq > ofile
+
+++rsync
+copia archivos entre nodos de red
+
+	$ rsync [options] source destination
+
+	$ rsync file.tar someone@backup.mydomain:/usr/local
+
+	$ rsync -r a-machine:/usr/local b-machine:/usr/	
+	
+	$ rsync -r --dry-run /usr/local /BACKUP/usr
+
+++mt
+herramienta para interactuar con cintas a bajo nivel
+
+	mt [-h] [-f device] operation [count] [arguments...]
+
+donde
+
+    -h:  despliega la ayuda
+    -f device:  especifica la unidad de cinta
+    operation:  es una de las operaciones sobre la cinta
+    count: se usa para algunas operaciones que se pueden repetir (el valor predeterminado es 1)
+    arguments:  se usan en algunas operaciones.
+
+	--Muestra información del estado del dispositivo de cinta:
+    	$ mt status
+    
+	--Rebobinar la cinta:
+    	$ mt rewind
+    
+	--Borrar la cinta:
+    	$ mt erase
+    
+	--Moverse hasta el final del archivo actual:
+    	$ mt fsf
