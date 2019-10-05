@@ -1,0 +1,42 @@
+* tipos de raid
+    *RAID 0 0 tolerancia al error :v 
+    *RAID 1 los discos van 1 a 1 uno activo uno en spare
+    *RAID 5 los Se necesitan como mínimo 3 discos, une las capacidades de todos, pero quedándose con el espacio total de un de los discos, repartido entre todos. Se puede romper un disco sin perder datos.
+    *RAID 6 puede resistir hasta el danio de 2 dicos en un arreglo de 4 :)  
+
+*pasos para montar un raid 
+    
+    Create partitions on each disk (type fd in fdisk)
+          $ sudo fdisk /dev/sdb
+          $ sudo fdisk /dev/sdc
+    Create RAID device with mdadm
+          $ sudo mdadm --create /dev/md0 --level=1 --raid-disks=2 /dev/sdbX /dev/sdcX
+    Format RAID device 
+          $ sudo mkfs.ext4 /dev/md0
+          $ sudo bash -c "mdadm --detail --scan >> /etc/mdadm.conf"
+    Add device to /etc/fstab
+          /dev/md0  /myraid  ext4  defaults 0 2
+    Mount RAID device
+          $ sudo mount /dev/md0 /myraid
+    Capture RAID details to ensure persistence.
+
+*parar un raid 
+    sudo mdadm -S
+    
+*checkear raid status 
+    $ sudo mdadm --detail /dev/md0
+    $ cat /proc/mdstat
+    
+*crear raid hot spares
+    la opcion -x 1 le dice que use un disco como spare
+    $ sudo mdadm --create /dev/md0 -l 5 -n3 -x 1 /dev/sda8 /dev/sda9 /dev/sda10 /dev/sda11
+    
+*test redundancy y hot spare de una array 
+    $ sudo mdadm --fail /dev/md0 /dev/sdb2
+    
+*remover disco malo de una array 
+    $ sudo mdadm --remove /dev/md0 /dev/sdb2
+  
+*add new disc to array
+    $ sudo mdadm --add /dev/md0 /dev/sde2
+    
